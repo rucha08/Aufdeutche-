@@ -13,7 +13,7 @@ Whether to run your own ("in-house") model: [docs/LLM_OPTIONS.md](docs/LLM_OPTIO
 ## Run it locally
 
 ```bash
-cd auf-deutsch
+cd Aufdeutche-
 pip install -r requirements-dev.txt
 cp .env.example .env            # then edit it
 export $(grep -v '^#' .env | xargs)
@@ -47,7 +47,7 @@ It needs an always-on server with **HTTPS** (browsers only allow the microphone 
 
 Any of these is fine for 15 people:
 
-- **Render / Railway / Fly.io:** deploy the `auf-deutsch` folder with the Dockerfile, attach a small persistent volume at `/data`, set the variables above. They give you HTTPS.
+- **Render / Railway / Fly.io:** deploy this repo with the Dockerfile, attach a small persistent volume at `/data`, set the variables above. They give you HTTPS.
 - **A small VPS** (e.g. Hetzner CX22, ~€4/month): `docker build -t auf-deutsch . && docker run -d -p 8000:8000 -v ad-data:/data --env-file .env auf-deutsch`, with [Caddy](https://caddyserver.com) in front for automatic HTTPS.
 
 Back up the SQLite file (`/data/auf_deutsch.db`) regularly; it holds everyone's progress.
