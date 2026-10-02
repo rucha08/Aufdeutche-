@@ -1,0 +1,23 @@
+# Render Blueprint: New → Blueprint → pick this repo. You'll be asked for the two secret values.
+services:
+  - type: web
+    name: auf-deutsch
+    runtime: docker
+    plan: starter            # a persistent disk needs a paid instance; the free tier would wipe progress
+    region: frankfurt
+    healthCheckPath: /
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false          # leave empty for demo mode
+      - key: AD_INVITE_CODE
+        sync: false
+      - key: AD_SECURE_COOKIES
+        value: "1"
+      - key: AD_DB_PATH
+        value: /data/auf_deutsch.db
+      - key: AD_DAILY_AI_LIMIT
+        value: "200"
