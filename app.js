@@ -65,11 +65,24 @@
   function exRec(id) { return S.ex[id]; }
   function markEx(id, score) { var r = S.ex[id] || { tries: 0 }; r.tries++; r.date = day(); if (score != null) r.best = Math.max(r.best || 0, score); r.last = score; S.ex[id] = r; save(); }
   function badge(id) { var r = exRec(id); return r ? '<span class="tag">' + (r.best != null ? r.best + "%" : "✓ done") + "</span>" : ""; }
+  function lvIdx() { return Math.max(0, LV.indexOf(lvl())); }
+  function unlocked(l) { return !l || LV.indexOf(l) <= lvIdx(); }
+  function nextLevel() { return LV[lvIdx() + 1]; }
   function levelTabs(cur, base) {
-    return '<div class="chips" role="group" aria-label="Level">' + LV.map(function (l) { return '<a class="chip" style="text-decoration:none" href="' + base + "?" + l + '" aria-pressed="' + (l === cur) + '">' + l + "</a>"; }).join("") + "</div>";
+    return '<div class="chips" role="group" aria-label="Level">' + LV.map(function (l) {
+      return unlocked(l) ? '<a class="chip" style="text-decoration:none" href="' + base + "?" + l + '" aria-pressed="' + (l === cur) + '">' + l + "</a>"
+        : '<button class="chip lockchip" data-locked="' + l + '" aria-disabled="true" title="Locked">🔒 ' + l + "</button>";
+    }).join("") + "</div>";
+  }
+  function lockedCard(l) {
+    return '<div class="card"><h2>🔒 ' + l + ' is locked</h2><p>You\'re at <b>' + lvl() + "</b>. Material above your level is hidden so it doesn't overwhelm you. " +
+      "Practise at " + lvl() + ", then pass the short level-up test to unlock " + nextLevel() + '.</p><div class="row">' + link("#/test/up", "Take the level-up test") + link("#/today", "Back to today", "ghost") + "</div></div>";
   }
   function levelFromHash(def) { var m = location.hash.match(/\?(A1|A2|B1|B2|C1)$/); return m ? m[1] : def; }
-  document.addEventListener("click", function (e) { var s = e.target.closest("[data-say]"); if (s) Speech.speak(s.getAttribute("data-say"), { slow: s.hasAttribute("data-slow") }); });
+  document.addEventListener("click", function (e) {
+    var s = e.target.closest("[data-say]"); if (s) Speech.speak(s.getAttribute("data-say"), { slow: s.hasAttribute("data-slow") });
+    var l = e.target.closest("[data-locked]"); if (l) toast("🔒 " + l.getAttribute("data-locked") + " unlocks when you pass the level-up test (Fortschritt → level-up test).");
+  });
 
   /* ---------- words + spaced repetition ---------- */
   function seedTopic(c) { return /Official|Insurance|Healthcare/.test(c) ? "Behörde" : /Job|Work/.test(c) ? "Bewerbung" : /Phone|Digital/.test(c) ? "Kommunikation" : "Alltag"; }
@@ -83,9 +96,9 @@
     }
     var seen = {}, list = [];
     S.custom.forEach(function (w) { seen[w.de.toLowerCase()] = 1; list.push(Object.assign({ key: "c" + w.id, rank: -1, mine: true, topic: "Mine" }, w)); });
-    D.words.forEach(function (w) { seen[w.de.toLowerCase()] = 1; var t = seedTopic(w.category); list.push(Object.assign({ key: "s" + w.no, topic: t, rank: rank(w.level, w.priority, t, w.no) }, w)); });
+    D.words.forEach(function (w) { seen[w.de.toLowerCase()] = 1; if (!unlocked(w.level)) return; var t = seedTopic(w.category); list.push(Object.assign({ key: "s" + w.no, topic: t, rank: rank(w.level, w.priority, t, w.no) }, w)); });
     PRO.forEach(function (r, i) {
-      if (seen[r[0].toLowerCase()]) return;
+      if (seen[r[0].toLowerCase()] || !unlocked(r[4])) return;
       list.push({ key: "p:" + r[0], de: r[0], article: r[1], plural: r[2], en: r[3], level: r[4], topic: r[5], example: r[6], example_en: r[7], note: "", rank: rank(r[4], 2, r[5], 200 + i) });
     });
     list.sort(function (a, b) { return a.rank - b.rank; });
@@ -117,7 +130,7 @@
   function streak() { var n = 0, i = S.act[day()] ? 0 : -1; while (S.act[day(i)]) { n++; i--; } return n; }
 
   /* ---------- routing ---------- */
-  var routes = { today: viewToday, hoeren: viewSkill, lesen: viewSkill, schreiben: viewSkill, sprechen: viewSkill, words: viewWords, progress: viewProgress, settings: viewSettings };
+  var routes = { today: viewToday, hoeren: viewSkill, lesen: viewSkill, schreiben: viewSkill, sprechen: viewSkill, words: viewWords, progress: viewProgress, settings: viewSettings, test: viewTest };
   function route() {
     Speech.stop(); Speech.hush(); $view.onclick = null;
     if (!S.profile) return viewSetup();
@@ -131,41 +144,54 @@
   window.addEventListener("hashchange", route);
 
   /* ---------- setup ---------- */
-  function profileForm(p) {
-    p = p || { name: "", level: "A2", minutes: 30, focus: "job" };
+  function profileForm(p, setup) {
+    p = p || { name: "", level: "A1", minutes: 30, focus: "job" };
     return '<form id="pf" class="composer">' +
       '<div class="field"><label for="pName">Your first name</label><input type="text" id="pName" required maxlength="40" value="' + esc(p.name) + '"></div>' +
-      '<div class="field"><span class="lbl">Your German level right now</span><div class="levels" id="lvPick">' +
-      LEVELS.map(function (l) { return '<button type="button" class="lvlbtn" data-lv="' + l[0] + '" aria-pressed="' + (l[0] === p.level) + '"><b>' + l[0] + "</b><strong>" + l[1] + '</strong><span class="small muted">' + l[2] + "</span></button>"; }).join("") +
-      '</div><p class="small muted">Not sure? Pick the lower one. You can switch levels on every page.</p></div>' +
+      (setup ? "" : '<div class="field"><span class="lbl">Your level</span><p><b class="lvlcode">' + p.level + "</b> " + LEVELS[LV.indexOf(p.level)][1] + (p.tested ? ' <span class="small muted">(level test on ' + esc(p.tested) + ")</span>" : "") + "</p>" +
+        (LV.indexOf(p.level) > 0 ? '<label class="small muted" for="pDown">Too hard? Go down a level:</label><select id="pDown"><option value="">Stay at ' + p.level + "</option>" + LV.slice(0, LV.indexOf(p.level)).map(function (l) { return '<option value="' + l + '">' + l + "</option>"; }).join("") + "</select>" : "") +
+        '<div class="row" style="margin-top:6px">' + link("#/test/place", "Retake the level test", "ghost") + (nextLevel() ? link("#/test/up", "Level-up test (" + nextLevel() + ")", "ghost") : "") + "</div></div>") +
       '<div class="field"><span class="lbl">What do you need German for most?</span><div class="chips" id="fcPick">' +
       '<button type="button" class="chip" data-fc="job" aria-pressed="' + (p.focus !== "everyday") + '">Work, job interviews &amp; official matters</button>' +
       '<button type="button" class="chip" data-fc="everyday" aria-pressed="' + (p.focus === "everyday") + '">Everyday life</button></div></div>' +
       '<div class="field"><label for="pMin">Minutes per day</label><select id="pMin">' + [10, 15, 20, 30, 45, 60].map(function (m) { return "<option" + (m === p.minutes ? " selected" : "") + ">" + m + "</option>"; }).join("") + "</select></div>" +
-      '<p class="note" id="pv"></p><div><button class="cta" type="submit">Save</button></div></form>';
+      '<p class="note" id="pv"></p><div class="row"><button class="cta" type="submit">' + (setup ? "Next: find my level (5 min)" : "Save") + "</button>" +
+      (setup ? '<button class="ghost" type="button" id="beginner">I\'m a complete beginner: start at A1</button>' : "") + "</div></form>";
   }
   function wireProfile(done) {
-    var lv = document.querySelector("#lvPick [aria-pressed=true]").getAttribute("data-lv");
     var fc = document.querySelector("#fcPick [aria-pressed=true]").getAttribute("data-fc");
     function pv() { var m = +val("pMin"); document.getElementById("pv").innerHTML = "Every day: <b>one exercise per skill</b> (about " + Math.max(5, Math.round(m * 0.6)) + " min) + <b>" + Math.max(3, Math.min(25, Math.round(m * 0.32))) + " new words</b>, plus reviews."; }
     function pick(boxId, attr, set) { document.getElementById(boxId).onclick = function (e) { var b = e.target.closest("[" + attr + "]"); if (!b) return; set(b.getAttribute(attr)); this.querySelectorAll("[" + attr + "]").forEach(function (x) { x.setAttribute("aria-pressed", x === b); }); }; }
-    pick("lvPick", "data-lv", function (v) { lv = v; }); pick("fcPick", "data-fc", function (v) { fc = v; });
+    pick("fcPick", "data-fc", function (v) { fc = v; });
     document.getElementById("pMin").onchange = pv; pv();
-    document.getElementById("pf").onsubmit = function (e) {
-      e.preventDefault();
-      S.profile = { name: val("pName").trim() || "du", level: lv, minutes: +val("pMin"), focus: fc }; WORDS_CACHE = null; save(); done();
-    };
+    function store() {
+      var old = S.profile || {}, down = val("pDown");
+      S.profile = { name: val("pName").trim() || "du", level: down || old.level || "A1", minutes: +val("pMin"), focus: fc, tested: old.tested };
+      WORDS_CACHE = null; save();
+    }
+    document.getElementById("pf").onsubmit = function (e) { e.preventDefault(); store(); done("test"); };
+    var b = document.getElementById("beginner");
+    if (b) b.onclick = function () { if (!val("pName").trim()) { document.getElementById("pName").focus(); return toast("Type your first name first."); } store(); done("beginner"); };
   }
   function viewSetup() {
     document.getElementById("tabs").hidden = true;
-    $view.innerHTML = '<div class="card"><h2>Willkommen!</h2><p class="muted">Practise the four skills of the Goethe exam (listening, reading, writing, speaking) from A1 to C1, with lots of work and job-interview German. Your progress is saved in this browser.</p>' + profileForm() + "</div>";
-    wireProfile(function () { location.hash = "#/today"; route(); });
+    $view.innerHTML = '<div class="card"><h2>Willkommen!</h2><p class="muted">Practise the four skills of the Goethe exam (listening, reading, writing, speaking) from A1 to C1, with lots of work and job-interview German. ' +
+      "First we find your level with a short test, so everything you see fits you. Your progress is saved in this browser.</p>" + profileForm(null, true) + "</div>";
+    wireProfile(function (how) { location.hash = how === "beginner" ? "#/today" : "#/test/place"; route(); });
   }
 
   /* ---------- today ---------- */
   function nextEx(skill, level) {
     var list = SKILLS[skill].data.filter(function (x) { return x.level === level; });
     return list.filter(function (x) { return !exRec(x.id); })[0] || list.slice().sort(function (a, b) { return ((exRec(a.id) || {}).best || 0) - ((exRec(b.id) || {}).best || 0); })[0];
+  }
+  function levelUpReady() {
+    if (!nextLevel()) return false;
+    var xs = [], L = lvl();
+    Object.keys(SKILLS).forEach(function (k) { SKILLS[k].data.forEach(function (x) { if (x.level === L) xs.push(x); }); });
+    var done = xs.filter(function (x) { return exRec(x.id); }), sc = done.map(function (x) { return exRec(x.id).best; }).filter(function (v) { return v != null; });
+    var avg = sc.length ? sc.reduce(function (a, b) { return a + b; }, 0) / sc.length : 100;
+    return done.length >= Math.ceil(xs.length / 2) && avg >= 60;
   }
   function interviewQ() { var n = Math.floor(Date.now() / 864e5); return EX.interview[n % EX.interview.length]; }
   function viewToday() {
@@ -175,12 +201,17 @@
       return '<a class="skill" href="#/' + k + (x ? "/" + x.id : "") + '"><span class="skicon" aria-hidden="true">' + s.icon + "</span><span><b>" + s.de + '</b> <span class="muted small">' + s.en + "</span><br>" +
         '<span class="small">' + (x ? esc(x.title) : "All done at " + L) + '</span><br><span class="small muted mono">' + done + " / " + tot + " done at " + L + "</span></span></a>";
     }).join("");
-    $view.innerHTML = '<div class="grid">' + stat("Streak", streak() + '<small class="muted"> days</small>') +
+    var ready = levelUpReady(), speakCard = lvIdx() === 0
+      ? '<div class="card"><p class="eyebrow">Speak today</p><p class="bigq">Stellen Sie sich vor! ' + sayBtn("Stellen Sie sich vor!") + '</p><p class="small muted">Introduce yourself: name, country, city, job. Short sentences are perfect.</p><div>' + link("#/sprechen/p-a1-1", "Practise out loud") + "</div></div>"
+      : '<div class="card"><p class="eyebrow">Job interview question of the day</p><p class="bigq">' + esc(iq.q) + " " + sayBtn(iq.q) + '</p><p class="small muted">' + esc(iq.en) + "</p><div>" + link("#/sprechen/interview/" + iq.id, "Answer it out loud") + "</div></div>";
+    $view.innerHTML = (!S.profile.tested ? '<div class="card note-card"><p><b>Not sure ' + L + " is right for you?</b> Take the 5-minute level test so the exercises fit you.</p><div>" + link("#/test/place", "Find my level", "ghost") + "</div></div>" : "") +
+      (ready ? '<div class="card note-card"><p class="eyebrow">Level up</p><p><b>Great work at ' + L + "!</b> You've done most " + L + " exercises with good scores. Ready to try " + nextLevel() + "?</p><div>" + link("#/test/up", "Take the level-up test (2 min)") + "</div></div>" : "") +
+      '<div class="grid">' + stat("Streak", streak() + '<small class="muted"> days</small>') +
       stat("Speaking today", mins(a.speak) + '<small class="muted"> min</small>') +
       stat("Words due", q.due.length, '<span class="small muted">+ ' + q.fresh.length + " new today</span>") + "</div>" +
       '<div class="card"><p class="eyebrow">Today · one exercise per skill (' + L + ")</p><div class=\"skills\">" + tiles + "</div></div>" +
-      '<div class="card"><p class="eyebrow">Job interview question of the day</p><p class="bigq">' + esc(iq.q) + " " + sayBtn(iq.q) + '</p><p class="small muted">' + esc(iq.en) + "</p><div>" + link("#/sprechen/interview/" + iq.id, "Answer it out loud") + "</div></div>" +
-      '<div class="card"><p class="eyebrow">Words</p><h2>' + (q.due.length + q.fresh.length) + ' cards waiting</h2><p class="muted">Work, office and official vocabulary first. Say every answer out loud.</p><div>' + link("#/words/review", "Review now") + "</div></div>";
+      speakCard +
+      '<div class="card"><p class="eyebrow">Words</p><h2>' + (q.due.length + q.fresh.length) + ' cards waiting</h2><p class="muted">Words up to ' + L + " only. Say every answer out loud.</p><div>" + link("#/words/review", "Review now") + "</div></div>";
   }
 
   /* ---------- skill pages ---------- */
@@ -194,13 +225,17 @@
     }
     if (id) {
       var x = findEx(skill, id); if (!x) { location.hash = "#/" + skill; return; }
+      if (!unlocked(x.level)) { $view.innerHTML = lockedCard(x.level); return; }
       return ({ hoeren: viewListen, lesen: viewRead, schreiben: viewWrite, sprechen: viewSpeakTask })[skill](x);
     }
     var s = SKILLS[skill], L = levelFromHash(lvl());
+    if (!unlocked(L)) L = lvl();
     var list = s.data.filter(function (x) { return x.level === L; });
     var extra = "";
     if (skill === "sprechen") {
-      extra = '<div class="card"><p class="eyebrow">Beruf</p><h2>💼 Job interview trainer</h2><p class="muted">' + EX.interview.length + " common interview questions. Hear the question, answer out loud, compare with a model answer for your level.</p><div class=\"row\">" + link("#/sprechen/interview/" + EX.interview[0].id, "Start") + "</div></div>";
+      extra = lvIdx() >= 1
+        ? '<div class="card"><p class="eyebrow">Beruf</p><h2>💼 Job interview trainer</h2><p class="muted">' + EX.interview.length + " common interview questions. Hear the question, answer out loud, compare with a model answer written for " + lvl() + ".</p><div class=\"row\">" + link("#/sprechen/interview/" + EX.interview[0].id, "Start") + "</div></div>"
+        : '<div class="card"><p class="eyebrow">Beruf</p><h3>🔒 Job interview trainer</h3><p class="muted small">Unlocks at A2. At A1, start by introducing yourself and asking simple questions below. That is exactly what you need first at work.</p></div>';
     }
     $view.innerHTML = '<div class="card"><p class="eyebrow">' + s.icon + " " + s.en + "</p><h2>" + s.de + '</h2><p class="muted">' + s.blurb + "</p>" + levelTabs(L, "#/" + skill) +
       '<p class="note"><b>Goethe ' + L + ":</b> " + GOETHE[skill][L] + "</p></div>" + extra +
@@ -208,7 +243,7 @@
       (list.length ? list.map(function (x) {
         return '<a class="exrow" href="#/' + skill + "/" + x.id + '"><span><span class="small muted">' + esc(x.part) + "</span><br><b>" + esc(x.title) + "</b>" + badge(x.id) + '</span><span aria-hidden="true">→</span></a>';
       }).join("") : '<p class="muted">No exercises at this level yet.</p>') + "</div></div>" +
-      (skill === "sprechen" ? '<div class="card"><p class="eyebrow">Alltag &amp; Beruf</p><h3>Role-plays and phrase drills</h3><p class="muted small">Bürgeramt, landlord, doctor, phone calls… The other person speaks, you answer.</p><div class="composer">' +
+      (skill === "sprechen" && lvIdx() >= 1 ? '<div class="card"><p class="eyebrow">Alltag &amp; Beruf</p><h3>Role-plays and phrase drills</h3><p class="muted small">Bürgeramt, landlord, doctor, phone calls… The other person speaks, you answer.</p><div class="composer">' +
         D.scenarios.map(function (sc) { return '<div class="row between"><span>' + esc(sc.title) + (S.rp[sc.id] != null ? ' <span class="tag">' + S.rp[sc.id] + "%</span>" : "") + '</span><span class="row">' + link("#/sprechen/roleplay/" + sc.id, "Role-play", "ghost") + link("#/sprechen/drill/" + sc.id, "Phrases", "ghost") + "</span></div>"; }).join("") +
         '<div>' + link("#/sprechen/free", "Talk freely about today's question", "ghost") + "</div></div></div>" : "");
   }
@@ -406,7 +441,9 @@
   /* Job interview trainer */
   function viewInterview(id) {
     var list = EX.interview, i = Math.max(0, list.findIndex(function (q) { return q.id === id; })), q = list[i];
-    var adv = LV.indexOf(lvl()) >= 3, model = adv ? q.adv : q.model, other = adv ? q.model : q.adv;
+    if (lvIdx() < 1) { $view.innerHTML = lockedCard("A2"); return; }
+    var li = lvIdx(), model = li >= 3 ? q.adv : li === 2 ? q.model : q.basic, mLabel = li >= 3 ? "B2–C1" : li === 2 ? "B1" : "A2";
+    var simpler = li >= 3 ? [["B1", q.model], ["A2", q.basic]] : li === 2 ? [["A2", q.basic]] : [];
     $view.innerHTML = '<div class="card"><div class="row between"><div><p class="eyebrow">💼 Vorstellungsgespräch · ' + (i + 1) + " / " + list.length + '</p><h2 class="bigq">' + esc(q.q) + "</h2></div>" + link("#/sprechen", "← Sprechen", "ghost") + "</div>" +
       '<p class="muted">' + esc(q.en) + '</p><p class="hint"><b>Tip:</b> ' + esc(q.tip) + "</p>" +
       '<div class="row">' + sayBtn(q.q, "🔊 Hear the question") + "</div>" +
@@ -417,8 +454,8 @@
       if (!text) return toast("Answer out loud (or type) first.");
       S.ex["int-" + q.id] = { tries: ((S.ex["int-" + q.id] || {}).tries || 0) + 1, date: day() }; save();
       document.getElementById("iout").innerHTML = speakStats(text, secs, { seconds: 60 }) +
-        '<div class="note"><div class="row between"><p class="lbl">Model answer (' + (adv ? "B2–C1" : "A2–B1") + ')</p><span class="row">' + sayBtn(model) + slowBtn(model) + "</span></div><p>" + esc(model) + "</p>" +
-        '<details><summary class="small">See the ' + (adv ? "simpler (A2–B1)" : "advanced (B2–C1)") + " version</summary><p>" + esc(other) + " " + sayBtn(other) + "</p></details></div>" +
+        '<div class="note"><div class="row between"><p class="lbl">Model answer (' + mLabel + ')</p><span class="row">' + sayBtn(model) + slowBtn(model) + "</span></div><p>" + esc(model) + "</p>" +
+        simpler.map(function (v) { return '<details><summary class="small">Simpler version (' + v[0] + ")</summary><p>" + esc(v[1]) + " " + sayBtn(v[1]) + "</p></details>"; }).join("") + "</div>" +
         '<div class="row"><button class="cta" id="cp">Copy for Claude</button></div>';
       document.getElementById("cp").onclick = function () {
         copyText("I'm practising for job interviews in German (my level: " + lvl() + "). The interviewer asked: „" + q.q + "“\n\nMy answer (from speech recognition, ignore punctuation):\n" + text + "\n\nPlease: 1) correct my German with short English explanations; 2) tell me how convincing the answer is for an interviewer in Germany; 3) give me an improved answer at " + lvl() + " level that I can memorise.");
@@ -504,7 +541,7 @@
     $view.innerHTML = '<div class="card"><div class="row between"><h2>Wörter · Words</h2>' + link("#/words/review", "Review") + "</div>" +
       '<p class="muted small">' + words().length + " words: everyday German plus job search, office, authorities and email/phone language.</p>" +
       '<div class="field"><label for="wq">Search German or English</label><input type="text" id="wq" value="' + esc(WF.q) + '" autocomplete="off"></div>' +
-      chips("wt", TP, WF.topic) + chips("wl", [["all", "All levels"]].concat(LV.map(function (l) { return [l, l]; })), WF.lv) + chips("ws", ST, WF.st) +
+      chips("wt", TP, WF.topic) + chips("wl", [["all", "All my levels"]].concat(LV.filter(unlocked).map(function (l) { return [l, l]; })), WF.lv) + chips("ws", ST, WF.st) +
       '<div class="wl" id="wlist"></div></div>' +
       '<div class="card"><h3>Add your own word</h3><p class="small muted">Words you add come first in your reviews.</p><div class="row">' +
       '<div class="field" style="flex:0 0 6rem"><label for="nArt">Article</label><select id="nArt"><option value="">–</option><option>der</option><option>die</option><option>das</option></select></div>' +
@@ -596,12 +633,14 @@
         return "<tr><td>" + SKILLS[k].icon + " " + SKILLS[k].de + "</td>" + LV.map(function (l) {
           var xs = SKILLS[k].data.filter(function (x) { return x.level === l; }), done = xs.filter(function (x) { return exRec(x.id); }), sc = done.map(function (x) { return exRec(x.id).best; }).filter(function (v) { return v != null; });
           var avg = sc.length ? Math.round(sc.reduce(function (a, b) { return a + b; }, 0) / sc.length) : null;
+          if (!unlocked(l)) return '<td class="small muted">🔒</td>';
           return '<td class="mono small">' + done.length + "/" + xs.length + (avg != null ? "<br>" + avg + "%" : "") + "</td>";
         }).join("") + "</tr>";
       }).join("") + "</tbody></table></div>";
     var intDone = EX.interview.filter(function (q) { return S.ex["int-" + q.id]; }).length;
     $view.innerHTML = '<div class="grid">' + stat("Streak", streak() + '<small class="muted"> days</small>') + stat("Words known", known, '<span class="small muted">' + learning + " still learning</span>") +
       stat("Speaking total", mins(totalSpeak) + '<small class="muted"> min</small>') + stat("Interview questions", intDone + '<small class="muted"> / ' + EX.interview.length + "</small>") + "</div>" +
+      '<div class="card"><h3>Your level: ' + lvl() + "</h3><p class=\"small muted\">" + (nextLevel() ? "Pass the level-up test (6 questions, 4 correct needed) to unlock " + nextLevel() + "." : "You've reached the highest level in the app.") + '</p><div class="row">' + (nextLevel() ? link("#/test/up", "Level-up test (" + nextLevel() + ")") : "") + link("#/test/place", "Retake the full level test", "ghost") + "</div></div>" +
       '<div class="card"><h3>Exercises done by skill and level</h3><p class="small muted">Done / available, and your average best score. 60% is the pass mark in the Goethe exams.</p>' + table + "</div>" +
       '<div class="card"><h3>Speaking minutes, last 30 days</h3><div class="bars">' + days.map(function (d) { var s = (S.act[d] || {}).speak || 0; return '<i class="' + (s ? "" : "zero") + '" style="height:' + Math.max(2, s / max * 100) + '%" title="' + d + ": " + mins(s) + ' min"></i>'; }).join("") + '</div><p class="small muted">Counted while the microphone is on.</p></div>' +
       '<div class="card"><h3>Backup</h3><p class="small muted">Progress lives only in this browser. Download a backup now and then, and load it to move to another device.</p>' +
@@ -617,6 +656,72 @@
     };
   }
 
+  /* ---------- level test ---------- */
+  var T = null;
+  function viewTest() {
+    var mode = location.hash.split("/")[2] === "up" ? "up" : "place";
+    if (mode === "up" && !nextLevel()) { $view.innerHTML = '<div class="card"><h2>You\'re at C1</h2><p>That\'s the highest level in the app. Toll!</p>' + link("#/today", "Back") + "</div>"; return; }
+    if (!T || T.mode !== mode) T = { mode: mode, levels: mode === "up" ? [nextLevel()] : LV.slice(), li: 0, qi: 0, picks: {}, results: {} };
+    if (!T.started) return testIntro();
+    testQuestion();
+  }
+  function testIntro() {
+    var up = T.mode === "up";
+    $view.innerHTML = '<div class="card"><p class="eyebrow">' + (up ? "Level-up test · " + T.levels[0] : "Level test · Einstufungstest") + "</p><h2>" + (up ? "Ready for " + T.levels[0] + "?" : "Let's find your level") + "</h2>" +
+      "<p>" + (up ? "6 questions at " + T.levels[0] + " level. Get 4 right and " + T.levels[0] + " unlocks." :
+        "The questions start very easy and get harder. Each level has 6 questions; when a level gets too hard, the test stops. It takes 2–5 minutes.") + "</p>" +
+      '<ul class="small"><li>Don\'t guess: press <b>“I don\'t know”</b> instead. The result is more accurate.</li><li>Some questions are spoken, so turn your sound on.</li></ul>' +
+      '<div class="row"><button class="cta" id="go">Start</button>' + link("#/today", "Not now", "ghost") + "</div></div>";
+    document.getElementById("go").onclick = function () { T.started = true; testQuestion(); };
+  }
+  function testQuestion() {
+    var L = T.levels[T.li], qs = window.AD_PLACEMENT[L], q = qs[T.qi], n = qs.length;
+    $view.innerHTML = '<div class="card"><div class="row between"><p class="eyebrow">' + (T.mode === "up" ? "Level-up test" : "Level test") + " · Teil " + (T.li + 1) + '</p><span class="small muted mono">' + (T.qi + 1) + " / " + n + "</span></div>" +
+      '<div class="bar"><i style="width:' + Math.round(T.qi / n * 100) + '%"></i></div>' +
+      (q.listen ? '<div class="row"><button class="cta mic" id="lis">▶ Listen</button><button class="ghost" id="lisSlow">🐢 Slower</button></div>' : "") +
+      (q.text ? '<div class="doc">' + esc(q.text) + "</div>" : "") +
+      '<p class="bigq">' + esc(q.q) + "</p>" +
+      '<div class="composer">' + q.options.map(function (o, i) { return '<button class="optbtn" data-opt="' + i + '">' + esc(o) + "</button>"; }).join("") +
+      '<button class="ghost" data-opt="-1">I don\'t know</button></div></div>';
+    if (q.listen) {
+      document.getElementById("lis").onclick = function () { Speech.speak(q.listen); };
+      document.getElementById("lisSlow").onclick = function () { Speech.speak(q.listen, { slow: true }); };
+      setTimeout(function () { Speech.speak(q.listen); }, 300);
+    }
+    $view.onclick = function (e) {
+      var b = e.target.closest("[data-opt]"); if (!b) return;
+      $view.onclick = null; Speech.hush();
+      (T.picks[L] = T.picks[L] || [])[T.qi] = +b.getAttribute("data-opt");
+      T.qi++;
+      if (T.qi < n) return testQuestion();
+      var right = qs.filter(function (qq, i) { return T.picks[L][i] === qq.answer; }).length;
+      T.results[L] = right;
+      if (right >= 4 && T.li < T.levels.length - 1) { T.li++; T.qi = 0; toast("Gut! " + right + "/" + n + " at " + L + ". Next: " + T.levels[T.li]); return testQuestion(); }
+      testResult();
+    };
+  }
+  function testResult() {
+    var passed = T.levels.filter(function (l) { return T.results[l] != null && T.results[l] >= 4; });
+    var before = lvl(), now = T.mode === "up" ? (passed.length ? T.levels[0] : before) : (passed.length ? passed[passed.length - 1] : "A1");
+    S.profile.level = now; S.profile.tested = day(); WORDS_CACHE = null; save();
+    document.getElementById("hello").textContent = "Hallo, " + S.profile.name + "! · Level " + now;
+    var msg = T.mode === "up"
+      ? (passed.length ? "🎉 Congratulations, " + now + " is unlocked! New exercises and words are waiting." : "Not yet: you need 4 of 6. Keep practising at " + before + " and try again in a few days.")
+      : (passed.length ? "Your level is <b>" + now + "</b>. Everything in the app now fits " + now + "; higher levels unlock when you pass a level-up test." : "You're at the very beginning, which is perfect: <b>A1</b> starts with simple words and short sentences.");
+    var review = [];
+    Object.keys(T.picks).forEach(function (L) {
+      window.AD_PLACEMENT[L].forEach(function (q, i) { if (T.picks[L][i] !== q.answer) review.push([L, q, T.picks[L][i]]); });
+    });
+    $view.innerHTML = '<div class="card"><p class="eyebrow">Result</p><h2 class="bigq">' + (T.mode === "up" && !passed.length ? "Almost!" : "Level " + now) + "</h2><p>" + msg + "</p>" +
+      '<div class="tablewrap"><table><tbody>' + T.levels.filter(function (l) { return T.results[l] != null; }).map(function (l) { return "<tr><td>" + l + '</td><td class="mono">' + T.results[l] + " / 6</td><td>" + (T.results[l] >= 4 ? "✓ passed" : "not yet") + "</td></tr>"; }).join("") + "</tbody></table></div>" +
+      '<div class="row">' + link("#/today", "Start learning") + link("#/test/" + T.mode, "Take it again", "ghost") + "</div>" +
+      (review.length ? "<details><summary>Check your mistakes (" + review.length + ")</summary><ul>" + review.map(function (r) {
+        return '<li><span class="tag">' + r[0] + "</span> " + esc(r[1].q) + (r[1].listen ? ' <span class="small muted">(you heard: „' + esc(r[1].listen) + "“)</span>" : "") + "<br>" +
+          (r[2] >= 0 ? '<span class="del">' + esc(r[1].options[r[2]]) + "</span> → " : "") + '<span class="ins">' + esc(r[1].options[r[1].answer]) + '</span> <span class="small muted">' + esc(r[1].en) + "</span></li>";
+      }).join("") + "</ul></details>" : "") + "</div>";
+    T = null;
+  }
+
   /* ---------- settings ---------- */
   function viewSettings() {
     var rate = 0.95; try { rate = parseFloat(localStorage.getItem("ad_rate") || "0.95"); } catch (e) {}
@@ -629,6 +734,7 @@
       (Speech.canListen ? "" : '<p class="note">' + esc(Speech.micHelp("unsupported")) + "</p>") + "</div>" +
       '<div class="card"><h3>Start over</h3><p class="small muted">Deletes all progress in this browser.</p><div><button class="ghost" id="reset" style="color:var(--die)">Reset everything</button></div></div>';
     wireProfile(function () { toast("Saved."); route(); });
+    var dn = document.getElementById("pDown"); if (dn) dn.onchange = function () { if (this.value) toast("Press Save to switch to " + this.value + "."); };
     var s = document.getElementById("voiceSel"); if (s) s.onchange = function () { Speech.setVoice(s.value); Speech.speak("Diese Stimme klingt so."); };
     document.getElementById("rate").oninput = function () { document.getElementById("rateV").textContent = this.value; try { localStorage.setItem("ad_rate", this.value); } catch (e) {} };
     document.getElementById("rate").onchange = function () { Speech.speak("So schnell spreche ich jetzt."); };

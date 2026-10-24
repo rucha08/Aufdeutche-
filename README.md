@@ -2,11 +2,12 @@
 
 A simple website for learning German in the four skills of the Goethe-Zertifikat, from **A1 to C1**, with a strong focus on **work, job interviews and official matters**. No accounts and no server: it's plain HTML, CSS and JavaScript, so GitHub Pages can host it for free.
 
+- **Level test first:** new users take a short test (6 questions per level, from very easy upwards; it stops when a level gets too hard). Everything in the app then matches their level. **Higher levels stay locked** until they pass a short level-up test (4 of 6 correct), so beginners never land on B2 texts.
 - **🎧 Hören (Listening):** phone messages, announcements, meetings, an interview invitation, a radio report, a discussion. Played by your browser's German voice (different voices or pitches per speaker), then questions.
 - **📄 Lesen (Reading):** notices, job ads, emails from the boss, a letter from the immigration office, an employment contract, articles and commentaries, then questions.
 - **✍️ Schreiben (Writing):** forms, short messages, formal and informal emails, forum posts and a cover letter. Word counter, points checklist, useful phrases, autosaved drafts, a form check, a model answer, and **Copy for Claude** for a full correction.
-- **🎤 Sprechen (Speaking):** Goethe-style parts per level (introduce yourself, ask and answer, plan together, presentation, discussion) plus a **job interview trainer** with 14 common questions and model answers for A2–B1 and B2–C1. Also everyday role-plays and pronunciation drills.
-- **Wörter (Words):** about 400 words, about 200 of them for job search and interviews, the office, authorities and documents, and emails and phone calls. Filter by topic and level. Spaced repetition where you *say* the German.
+- **🎤 Sprechen (Speaking):** Goethe-style parts per level (introduce yourself, ask and answer, plan together, presentation, discussion) plus a **job interview trainer** (from A2) with 14 common questions and model answers written for A2, B1 and B2–C1. Also everyday role-plays and pronunciation drills.
+- **Wörter (Words):** about 470 words, shown only up to your level (A1 learners see simple A1 words with very short example sentences), about 200 of them for job search and interviews, the office, authorities and documents, and emails and phone calls. Filter by topic and level. Spaced repetition where you *say* the German.
 - **Fortschritt (Progress):** exercises done and scores per skill and level, speaking minutes, backup and restore.
 
 Each person's progress is saved in their own browser, so friends can share one link and still have separate progress.
@@ -49,6 +50,7 @@ speech.js    German voice, microphone, pronunciation scoring
 data.js      starter words, role-plays, daily questions
 words_pro.js work, interview, office and bureaucracy vocabulary
 exercises.js Hören, Lesen, Schreiben, Sprechen and interview material (add more here)
+placement.js level test questions
 ```
 
 The earlier version with accounts and an AI conversation partner (it needs a server) is kept on the `server-version` branch.

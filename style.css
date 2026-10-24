@@ -133,3 +133,10 @@ fieldset.q.wrong{border-color:var(--die);background:color-mix(in srgb,var(--die)
 .opt{display:flex;gap:8px;align-items:flex-start;cursor:pointer;padding:3px 0}
 .opt input{margin-top:4px;accent-color:var(--accent)}
 .prompts{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:4px}
+
+/* level test + locks */
+.optbtn{text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-weight:600;font-size:1rem}
+.optbtn:hover{border-color:var(--ink);background:var(--surface)}
+.lockchip{opacity:.6;cursor:not-allowed}
+.note-card{background:var(--soft)}
+.lvlcode{font-family:var(--f-display);font-size:1.6rem;color:var(--accent)}

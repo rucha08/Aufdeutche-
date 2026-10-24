@@ -5,19 +5,19 @@ window.AD_EX = {
 
 /* ================================================================ HÖREN */
 listening: [
-{ id: "h-a1-1", level: "A1", part: "Teil 3 · Ansage am Telefon", title: "Ein neuer Termin beim Bürgeramt", topic: "Behörde",
-  lines: [["A", "Guten Tag, hier ist das Bürgeramt Aachen, Frau Schmitz. Ihr Termin am Dienstag muss leider ausfallen. Wir haben einen neuen Termin für Sie: Donnerstag, der vierzehnte November, um zehn Uhr. Bitte bringen Sie Ihren Reisepass und Ihren Mietvertrag mit. Vielen Dank und auf Wiederhören."]],
+{ id: "h-a1-1", level: "A1", part: "Teil 3 · Ansage am Telefon", title: "Eine Nachricht von der Sprachschule", topic: "Alltag",
+  lines: [["A", "Hallo, hier ist Frau Schmitz von der Sprachschule. Der Kurs am Montag ist nicht um neun Uhr. Er ist um zehn Uhr. Bitte bringen Sie Ihr Buch mit. Danke und tschüss!"]],
   questions: [
-    { type: "mc", q: "Wann ist der neue Termin?", options: ["Dienstag um 10 Uhr", "Donnerstag um 10 Uhr", "Donnerstag um 14 Uhr"], answer: 1 },
-    { type: "mc", q: "Was müssen Sie mitbringen?", options: ["Reisepass und Mietvertrag", "Reisepass und ein Foto", "Nur den Mietvertrag"], answer: 0 },
-    { type: "rf", q: "Der Termin am Dienstag findet statt.", answer: false, explain: "„Ihr Termin am Dienstag muss leider ausfallen.“" }
+    { type: "mc", q: "Wann ist der Kurs?", options: ["Um neun Uhr", "Um zehn Uhr", "Um elf Uhr"], answer: 1 },
+    { type: "mc", q: "Was bringen Sie mit?", options: ["Ein Buch", "Einen Stift", "Einen Pass"], answer: 0 },
+    { type: "rf", q: "Der Kurs ist am Montag.", answer: true }
   ] },
-{ id: "h-a1-2", level: "A1", part: "Teil 1 · Kurze Gespräche", title: "Der erste Arbeitstag", topic: "Büro",
-  lines: [["A", "Hallo, ich bin Jonas. Bist du neu hier?"], ["B", "Ja, ich heiße Mira. Ich arbeite ab heute in der Buchhaltung."], ["A", "Herzlich willkommen! Die Kaffeeküche ist im zweiten Stock, Zimmer zweihundertvier. Die Mittagspause ist um zwölf Uhr."], ["B", "Danke! Und wo ist das Büro von Frau Klein?"], ["A", "Im ersten Stock, neben dem Aufzug."]],
+{ id: "h-a1-2", level: "A1", part: "Teil 1 · Kurze Gespräche", title: "Neu im Büro", topic: "Büro",
+  lines: [["A", "Hallo! Ich bin Jonas. Bist du neu hier?"], ["B", "Ja. Ich heiße Mira. Ich arbeite ab heute hier."], ["A", "Willkommen, Mira! Die Küche ist im zweiten Stock. Die Pause ist um zwölf Uhr."], ["B", "Danke! Und wo ist das Büro von Frau Klein?"], ["A", "Hier links, Zimmer drei."]],
   questions: [
-    { type: "mc", q: "In welcher Abteilung arbeitet Mira?", options: ["Im Marketing", "In der Buchhaltung", "Am Empfang"], answer: 1 },
-    { type: "mc", q: "Wo ist die Kaffeeküche?", options: ["Im ersten Stock", "Im zweiten Stock", "Neben dem Aufzug"], answer: 1 },
-    { type: "rf", q: "Die Mittagspause ist um zwölf Uhr.", answer: true }
+    { type: "mc", q: "Wie heißt die neue Kollegin?", options: ["Mira", "Klein", "Jonas"], answer: 0 },
+    { type: "mc", q: "Wo ist die Küche?", options: ["Im ersten Stock", "Im zweiten Stock", "In Zimmer drei"], answer: 1 },
+    { type: "rf", q: "Die Pause ist um zwölf Uhr.", answer: true }
   ] },
 { id: "h-a2-1", level: "A2", part: "Teil 2 · Durchsage", title: "Durchsage in der Agentur für Arbeit", topic: "Behörde",
   lines: [["A", "Eine Information für alle Besucherinnen und Besucher: Die Wartenummern dreißig bis fünfundvierzig gehen bitte in den zweiten Stock, Raum zweihundertfünfzehn. Die Online-Anmeldung funktioniert heute leider nicht. Bitte füllen Sie das Formular am Empfang aus. Achtung: Unser Haus schließt heute schon um fünfzehn Uhr."]],
@@ -82,19 +82,19 @@ listening: [
 
 /* ================================================================ LESEN */
 reading: [
-{ id: "l-a1-1", level: "A1", part: "Teil 3 · Aushang", title: "Ein Aushang im Büro", topic: "Büro", kind: "Aushang",
-  text: "Liebe Kolleginnen und Kollegen,\n\ndie Kantine ist vom 3. bis 7. März geschlossen.\nIn dieser Woche gibt es Mittagessen im Café „Sonne“ in der Hauptstraße 12.\nMit Ihrem Mitarbeiterausweis bezahlen Sie nur 4 Euro.\n\nIhre Personalabteilung",
+{ id: "l-a1-1", level: "A1", part: "Teil 3 · Aushang", title: "Ein Zettel im Büro", topic: "Büro", kind: "Zettel",
+  text: "Liebe Kollegen,\n\ndie Küche ist am Freitag zu.\nBitte trinken Sie Kaffee im Café „Sonne“.\nDer Kaffee kostet dort nur 1 Euro.\n\nIhre Chefin, Frau Berg",
   questions: [
-    { type: "rf", q: "Die Kantine ist eine Woche geschlossen.", answer: true },
-    { type: "rf", q: "Das Mittagessen im Café ist kostenlos.", answer: false, explain: "Man bezahlt 4 Euro." },
-    { type: "rf", q: "Man braucht den Mitarbeiterausweis.", answer: true }
+    { type: "rf", q: "Die Küche ist am Freitag offen.", answer: false, explain: "„die Küche ist am Freitag zu“ = closed." },
+    { type: "rf", q: "Der Kaffee im Café kostet 1 Euro.", answer: true },
+    { type: "rf", q: "Frau Berg ist die Chefin.", answer: true }
   ] },
-{ id: "l-a1-2", level: "A1", part: "Teil 2 · Anzeigen", title: "Stellenanzeigen", topic: "Bewerbung", kind: "Kleinanzeigen",
-  text: "A) Bäckerei Krüger sucht Verkäufer/in. Montag bis Freitag, 6 bis 12 Uhr. Deutsch: A2. Tel. 0241 55 23 10\n\nB) Büro sucht Aushilfe für 10 Stunden pro Woche. Nachmittags, flexibel. Gute Computerkenntnisse. E-Mail: jobs@buero-meyer.de\n\nC) Hotel am Dom sucht Mitarbeiter/in für den Empfang. Englisch und Deutsch B1. Auch am Wochenende.",
+{ id: "l-a1-2", level: "A1", part: "Teil 2 · Anzeigen", title: "Arbeit gesucht?", topic: "Bewerbung", kind: "Anzeigen",
+  text: "A) Bäckerei sucht Verkäufer. Montag bis Freitag, morgens. Telefon: 0241 55 23 10\n\nB) Büro sucht Hilfe. Nachmittags, 10 Stunden pro Woche. E-Mail: jobs@buero-meyer.de\n\nC) Hotel sucht Mitarbeiter. Auch am Samstag und Sonntag.",
   questions: [
     { type: "mc", q: "Sie können nur nachmittags arbeiten. Welche Anzeige passt?", options: ["A", "B", "C"], answer: 1 },
-    { type: "mc", q: "Wo müssen Sie auch am Wochenende arbeiten?", options: ["A", "B", "C"], answer: 2 },
-    { type: "rf", q: "Für die Bäckerei schreibt man eine E-Mail.", answer: false, explain: "Bei der Bäckerei ruft man an (Tel.)." }
+    { type: "mc", q: "Wo arbeitet man auch am Wochenende?", options: ["A", "B", "C"], answer: 2 },
+    { type: "rf", q: "Für die Bäckerei schreiben Sie eine E-Mail.", answer: false, explain: "Für die Bäckerei rufen Sie an (Telefon)." }
   ] },
 { id: "l-a2-1", level: "A2", part: "Teil 2 · E-Mail", title: "Eine E-Mail von der Chefin", topic: "Büro", kind: "E-Mail",
   text: "Betreff: Teamsitzung verschoben\n\nHallo zusammen,\n\nunsere Teamsitzung am Montag um 9 Uhr findet leider nicht statt, weil ich zu einem Kunden nach Köln fahren muss. Wir treffen uns stattdessen am Dienstag um 10 Uhr im Raum „Berlin“. Bitte bringt eure Wochenberichte mit. Wer am Dienstag nicht kann, schickt mir den Bericht bitte bis Montagabend per E-Mail.\n\nViele Grüße\nKatrin",
@@ -163,20 +163,19 @@ reading: [
 /* ================================================================ SCHREIBEN */
 writing: [
 { id: "s-a1-1", level: "A1", part: "Teil 1 · Formular", title: "Ein Formular ausfüllen", topic: "Behörde", type: "form",
-  situation: "Ihre Freundin Ana Costa möchte einen Deutschkurs an der Volkshochschule machen. Sie hilft ihr beim Formular.\n\nAna kommt aus Portugal und wohnt seit März in Aachen, in der Lothringerstraße 15, 52062 Aachen. Sie ist 29 Jahre alt und arbeitet als Krankenpflegerin. Sie kann nur abends lernen. Bezahlen möchte sie mit Überweisung.",
+  situation: "Ihre Freundin heißt Ana Costa. Sie kommt aus Portugal. Sie wohnt jetzt in Aachen. Sie ist Krankenpflegerin. Sie möchte einen Deutschkurs machen. Sie hat nur abends Zeit.\n\nHelfen Sie Ana. Füllen Sie das Formular aus.",
   fields: [
-    { label: "Familienname", answer: ["Costa"] },
-    { label: "Herkunftsland", answer: ["Portugal"] },
-    { label: "Postleitzahl, Wohnort", answer: ["52062 Aachen", "52062, Aachen"] },
+    { label: "Name", answer: ["Costa", "Ana Costa", "Costa, Ana"] },
+    { label: "Land", answer: ["Portugal"] },
+    { label: "Wohnort", answer: ["Aachen"] },
     { label: "Beruf", answer: ["Krankenpflegerin", "Pflegerin"] },
-    { label: "Kurszeit (morgens / abends)", answer: ["abends"] },
-    { label: "Zahlungsart (bar / Überweisung)", answer: ["Überweisung"] }
+    { label: "Kurs: morgens oder abends?", answer: ["abends"] }
   ] },
-{ id: "s-a1-2", level: "A1", part: "Teil 2 · Kurze Mitteilung", title: "Sie sind krank", topic: "Büro", type: "text", words: [30, 40], formal: false,
-  situation: "Sie sind krank und können heute nicht zur Arbeit gehen. Schreiben Sie Ihrer Kollegin Julia eine Nachricht.",
-  points: ["Warum Sie nicht kommen", "Was Julia Ihrem Chef sagen soll", "Wann Sie wieder im Büro sind"],
-  phrases: ["Liebe Julia,", "ich bin leider krank.", "Kannst du bitte … sagen, dass …?", "Ich komme am … wieder.", "Viele Grüße"],
-  model: "Liebe Julia,\nich bin leider krank und habe Fieber. Ich kann heute nicht ins Büro kommen. Kannst du bitte Herrn Weber sagen, dass ich heute fehle? Ich gehe heute zum Arzt. Ich komme am Donnerstag wieder.\nViele Grüße\nAnna" },
+{ id: "s-a1-2", level: "A1", part: "Teil 2 · Kurze Mitteilung", title: "Sie sind krank", topic: "Büro", type: "text", words: [25, 40], formal: false,
+  situation: "Sie sind krank. Sie können heute nicht arbeiten. Schreiben Sie Ihrer Kollegin Julia eine Nachricht.",
+  points: ["Sie sind krank.", "Sie kommen heute nicht.", "Wann kommen Sie wieder?"],
+  phrases: ["Liebe Julia,", "ich bin krank.", "Ich komme heute nicht.", "Ich gehe zum Arzt.", "Ich komme am … wieder.", "Viele Grüße"],
+  model: "Liebe Julia,\nich bin krank. Ich habe Fieber. Ich komme heute nicht ins Büro. Ich gehe zum Arzt. Ich komme am Donnerstag wieder. Bitte sag das Herrn Weber.\nViele Grüße\nAnna" },
 { id: "s-a2-1", level: "A2", part: "Teil 1 · SMS", title: "Sie kommen später zum Meeting", topic: "Büro", type: "text", words: [20, 30], formal: false,
   situation: "Sie sind im Zug. Der Zug hat Verspätung. Schreiben Sie eine SMS an Ihren Kollegen Max.",
   points: ["Entschuldigen Sie sich.", "Sagen Sie, warum Sie zu spät kommen.", "Schreiben Sie, wann Sie im Büro sind."],
@@ -291,45 +290,59 @@ speaking: [
 /* ================================================================ VORSTELLUNGSGESPRÄCH */
 interview: [
 { id: "i1", q: "Erzählen Sie uns bitte etwas über sich.", en: "Tell us about yourself.", tip: "1–2 minutes: current role, one key achievement, why you're here. Don't recite your whole CV.",
+  basic: "Ich heiße Rucha. Ich komme aus Indien und wohne in Aachen. Ich bin Datenanalystin. Ich arbeite gern mit Zahlen und mit Computern.",
   model: "Gern. Ich habe Wirtschaftsinformatik studiert und arbeite seit drei Jahren als Datenanalystin. Zurzeit mache ich meinen Master an der RWTH Aachen. In meinem letzten Projekt habe ich ein Dashboard entwickelt, mit dem unser Vertrieb seine Zahlen täglich sehen kann. Jetzt suche ich eine Stelle, in der ich Daten und Projektarbeit verbinden kann.",
   adv: "Sehr gern. Ich bin Datenanalystin mit gut drei Jahren Berufserfahrung und absolviere derzeit meinen Master im Bereich Digitalisierung an der RWTH. Was mich auszeichnet, ist die Fähigkeit, komplexe Daten so aufzubereiten, dass Fachabteilungen damit Entscheidungen treffen können – zuletzt etwa mit einem Vertriebsdashboard, das die wöchentliche Berichtszeit von mehreren Stunden auf wenige Minuten reduziert hat. Ihre Stelle reizt mich, weil sie genau diese Schnittstelle zwischen Analyse und Projektsteuerung abdeckt." },
 { id: "i2", q: "Warum haben Sie sich bei uns beworben?", en: "Why did you apply to us?", tip: "Name something specific about the company, then link it to your skills.",
+  basic: "Ihre Firma ist sehr bekannt. Die Arbeit ist interessant für mich. Ich möchte hier viel lernen.",
   model: "Ich habe mich bei Ihnen beworben, weil Ihr Unternehmen in der Digitalisierung sehr aktiv ist. Mir gefällt, dass Sie viel in Weiterbildung investieren. Außerdem passen die Aufgaben gut zu meiner Erfahrung.",
   adv: "Mich hat vor allem überzeugt, dass Sie Digitalisierung nicht als Selbstzweck verstehen, sondern konsequent am Kundennutzen ausrichten – das habe ich auch in Ihrem aktuellen Nachhaltigkeitsbericht gesehen. Genau dort sehe ich meinen Beitrag: Daten so nutzbar zu machen, dass sie im Alltag tatsächlich einen Unterschied machen." },
 { id: "i3", q: "Was sind Ihre Stärken?", en: "What are your strengths?", tip: "Two strengths, each with a short real example.",
+  basic: "Ich bin pünktlich und freundlich. Ich arbeite gern im Team. Ich lerne schnell.",
   model: "Eine Stärke ist, dass ich sehr strukturiert arbeite. Zum Beispiel plane ich jede Woche meine Aufgaben genau. Außerdem kann ich gut im Team arbeiten und erkläre Kollegen gern neue Programme.",
   adv: "Zu meinen Stärken zähle ich ein ausgeprägtes analytisches Denken, gepaart mit der Fähigkeit, Ergebnisse verständlich zu kommunizieren. In meinem letzten Projekt etwa konnte ich der Geschäftsführung anhand weniger Kennzahlen zeigen, warum sich eine Investition nicht rechnet – die Entscheidung wurde daraufhin revidiert." },
 { id: "i4", q: "Und was sind Ihre Schwächen?", en: "What are your weaknesses?", tip: "A real but not critical weakness, plus what you're doing about it.",
+  basic: "Mein Deutsch ist noch nicht perfekt. Aber ich lerne jeden Tag.",
   model: "Manchmal fällt es mir schwer, Aufgaben abzugeben. Ich möchte alles selbst machen. Jetzt versuche ich, im Team früher um Hilfe zu bitten, und das klappt schon besser.",
   adv: "Ich neige dazu, mich zu lange mit Details aufzuhalten, wenn ein Ergebnis eigentlich schon gut genug wäre. Inzwischen setze ich mir für jede Aufgabe bewusst ein Zeitlimit und kläre vorab mit den Beteiligten, welche Genauigkeit wirklich nötig ist." },
 { id: "i5", q: "Warum möchten Sie Ihre jetzige Stelle verlassen?", en: "Why do you want to leave your current job?", tip: "Stay positive: look forward, never criticise your current employer.",
+  basic: "Ich möchte etwas Neues lernen. Ich suche eine neue Herausforderung.",
   model: "Ich habe in meiner Firma viel gelernt. Aber ich möchte mich weiterentwickeln und mehr Verantwortung übernehmen. Diese Möglichkeit sehe ich bei Ihnen.",
   adv: "Ich habe in meiner jetzigen Position sehr viel gelernt und schätze mein Team. Allerdings sind die Entwicklungsmöglichkeiten dort strukturell begrenzt, und ich möchte den nächsten Schritt hin zu mehr Projektverantwortung gehen." },
 { id: "i6", q: "Wo sehen Sie sich in fünf Jahren?", en: "Where do you see yourself in five years?", tip: "Ambitious but connected to this company.",
+  basic: "In fünf Jahren spreche ich sehr gut Deutsch. Ich möchte hier lange arbeiten.",
   model: "In fünf Jahren möchte ich Expertin in meinem Bereich sein. Vielleicht leite ich dann kleine Projekte. Ich möchte auch mein Deutsch weiter verbessern.",
   adv: "Ich sehe mich in fünf Jahren als jemanden, der fachlich als Ansprechpartnerin für datengetriebene Projekte gilt und idealerweise ein kleines Team fachlich führt – gern hier, wenn sich die Zusammenarbeit so entwickelt, wie ich es mir vorstelle." },
 { id: "i7", q: "Wie gehen Sie mit Stress um?", en: "How do you handle stress?", tip: "Concrete method plus a short example.",
+  basic: "Ich mache eine Liste. Dann mache ich die wichtigen Aufgaben zuerst. Nach der Arbeit gehe ich spazieren.",
   model: "Wenn ich viel Stress habe, mache ich eine Liste und fange mit den wichtigsten Aufgaben an. Ich spreche auch früh mit meinem Chef, wenn ein Termin zu knapp ist. Nach der Arbeit gehe ich joggen.",
   adv: "Unter Druck priorisiere ich konsequent und kommuniziere früh, wenn Fristen gefährdet sind. Vor dem letzten Quartalsabschluss etwa habe ich mit meinem Vorgesetzten zwei nachrangige Aufgaben verschoben, sodass wir die wichtigste Abgabe pünktlich schaffen konnten." },
 { id: "i8", q: "Erzählen Sie von einem Konflikt im Team und wie Sie ihn gelöst haben.", en: "Tell us about a team conflict and how you solved it.", tip: "Use STAR: Situation, Task, Action, Result.",
+  basic: "Einmal hatten zwei Kollegen ein Problem. Wir haben zusammen gesprochen. Dann war alles wieder gut.",
   model: "In einem Projekt waren zwei Kollegen nicht einverstanden, wer welche Aufgabe macht. Ich habe ein kurzes Meeting organisiert. Wir haben die Aufgaben neu verteilt und einen klaren Plan gemacht. Danach lief die Zusammenarbeit viel besser.",
   adv: "In einem Projekt gab es Spannungen zwischen Entwicklung und Vertrieb, weil Anforderungen ständig geändert wurden. Ich habe vorgeschlagen, einmal pro Woche ein kurzes gemeinsames Abstimmungstreffen einzuführen und Änderungen nur noch über ein zentrales Dokument anzunehmen. Innerhalb eines Monats sank die Zahl kurzfristiger Änderungen deutlich, und die Stimmung im Team hat sich spürbar verbessert." },
 { id: "i9", q: "Was wissen Sie über unser Unternehmen?", en: "What do you know about our company?", tip: "Two facts (products, size, a recent news item) and why they interest you.",
+  basic: "Ihre Firma macht Logistik. Sie haben viele Mitarbeiter in Europa.",
   model: "Ihr Unternehmen ist ein großer Logistikanbieter mit Standorten in ganz Europa. Ich habe gelesen, dass Sie gerade ein neues Lager in Aachen eröffnen. Das finde ich spannend.",
   adv: "Sie gehören zu den führenden Logistikanbietern in der Region und haben zuletzt stark in die Automatisierung Ihrer Lager investiert. Besonders interessant finde ich Ihr Pilotprojekt zur emissionsfreien Zustellung, über das ich in der Fachpresse gelesen habe." },
 { id: "i10", q: "Welche Gehaltsvorstellung haben Sie?", en: "What are your salary expectations?", tip: "Give a researched yearly gross figure or a small range.",
+  basic: "Ich möchte ungefähr 3.500 Euro brutto im Monat verdienen.",
   model: "Ich habe mich informiert. Meine Gehaltsvorstellung liegt bei ungefähr 48.000 Euro brutto im Jahr.",
   adv: "Auf Basis meiner Erfahrung und vergleichbarer Positionen in der Region liegt meine Gehaltsvorstellung bei 52.000 bis 55.000 Euro brutto jährlich. Natürlich spielen für mich auch Faktoren wie Weiterbildungsmöglichkeiten und flexible Arbeitszeiten eine Rolle." },
 { id: "i11", q: "Wann könnten Sie bei uns anfangen?", en: "When could you start?", tip: "Mention your notice period (Kündigungsfrist).",
+  basic: "Ich kann am ersten Dezember anfangen.",
   model: "Ich habe eine Kündigungsfrist von einem Monat. Ich könnte also am ersten Dezember anfangen.",
   adv: "Meine Kündigungsfrist beträgt vier Wochen zum Monatsende, sodass ich frühestens zum 1. Dezember zur Verfügung stünde. Falls es für Sie wichtig ist, kläre ich gern, ob ein früherer Wechsel möglich ist." },
 { id: "i12", q: "Wie gut ist Ihr Deutsch?", en: "How good is your German?", tip: "Be honest about your level and show you are improving.",
+  basic: "Ich spreche Deutsch auf A2-Niveau. Ich mache jeden Tag einen Kurs. Mein Deutsch wird immer besser.",
   model: "Ich habe das Niveau B1 und lerne jeden Tag weiter. Im Alltag und bei der Arbeit kann ich gut kommunizieren. Bei Fachbegriffen frage ich manchmal nach, aber ich lerne schnell.",
   adv: "Ich habe vor Kurzem das Goethe-Zertifikat B2 abgelegt und bereite mich gerade auf C1 vor. Im Arbeitsalltag kommuniziere ich sicher, schreibe auch längere E-Mails auf Deutsch und habe mir das Fachvokabular in meinem Bereich gezielt erarbeitet." },
 { id: "i13", q: "Arbeiten Sie lieber allein oder im Team?", en: "Do you prefer working alone or in a team?", tip: "Show you can do both, with an example.",
+  basic: "Ich arbeite gern im Team. Aber ich kann auch allein arbeiten.",
   model: "Ich arbeite gern im Team, weil man viel voneinander lernt. Aber ich kann auch allein konzentriert arbeiten, zum Beispiel wenn ich Daten analysiere.",
   adv: "Ich schätze beides und halte die Kombination für entscheidend: Analysen erarbeite ich gern konzentriert allein, die Interpretation und die Lösungen entwickle ich aber am liebsten gemeinsam mit dem Fachbereich, weil dabei oft die besten Ideen entstehen." },
 { id: "i14", q: "Haben Sie noch Fragen an uns?", en: "Do you have any questions for us?", tip: "Always ask 1–2 questions. Never say no.",
+  basic: "Ja. Wie groß ist das Team? Und wie sind die Arbeitszeiten?",
   model: "Ja, gern. Wie sieht die Einarbeitung in den ersten Wochen aus? Und wie groß ist das Team?",
   adv: "Ja, zwei Fragen hätte ich: Wie sieht die Einarbeitung in den ersten Monaten konkret aus? Und welche Ziele hat sich das Team für das kommende Jahr gesetzt?" }
 ]
