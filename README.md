@@ -1,18 +1,16 @@
 # Auf Deutsch
 
-A simple website for learning German in the four skills of the Goethe-Zertifikat, from **A1 to C1**, with a strong focus on **work, job interviews and official matters**. No accounts and no server: it's plain HTML, CSS and JavaScript, so GitHub Pages can host it for free.
+**Speak · Understand · Every day.** A simple website for learning German at your own level, from complete beginner (A1) to advanced (C1). The focus is on speaking and understanding, with new words every day and progress you can see.
 
-- **Level test first:** new users take a short test (6 questions per level, from very easy upwards; it stops when a level gets too hard). Everything in the app then matches their level. **Higher levels stay locked** until they pass a short level-up test (4 of 6 correct), so beginners never land on B2 texts.
-- **🎧 Hören (Listening):** phone messages, announcements, meetings, an interview invitation, a radio report, a discussion. Played by your browser's German voice (different voices or pitches per speaker), then questions.
-- **📄 Lesen (Reading):** notices, job ads, emails from the boss, a letter from the immigration office, an employment contract, articles and commentaries, then questions.
-- **✍️ Schreiben (Writing):** forms, short messages, formal and informal emails, forum posts and a cover letter. Word counter, points checklist, useful phrases, autosaved drafts, a form check, a model answer, and **Copy for Claude** for a full correction.
-- **🎤 Sprechen (Speaking):** Goethe-style parts per level (introduce yourself, ask and answer, plan together, presentation, discussion) plus a **job interview trainer** (from A2) with 14 common questions and model answers written for A2, B1 and B2–C1. Also everyday role-plays and pronunciation drills.
-- **Wörter (Words):** about 470 words, shown only up to your level (A1 learners see simple A1 words with very short example sentences), about 200 of them for job search and interviews, the office, authorities and documents, and emails and phone calls. Filter by topic and level. Spaced repetition where you *say* the German.
-- **Fortschritt (Progress):** exercises done and scores per skill and level, speaking minutes, backup and restore.
+- **Start in seconds:** type your name, pick your level (or take a quick 3-minute check), and go. Everything you see matches your level; higher levels stay locked until you pass a short level-up test.
+- **Today's new words:** a handful of new words every day (how many depends on your daily minutes), each with an example and audio, ticked off as you learn them. Older words come back for review at the right time.
+- **🎤 Sprechen (Speaking):** introduce yourself, plan together, present and discuss, everyday role-plays, pronunciation drills, and a **job interview trainer** (from A2) with model answers for A2, B1 and B2–C1.
+- **🎧 Hören (Listening)** and **📄 Lesen (Reading):** phone messages, conversations, emails, notices and articles about everyday life and work, with questions and transcripts.
+- **✍️ Schreiben (Writing):** messages, emails and short texts with a word counter, a checklist, useful phrases and a model answer.
+- **Fortschritt (Progress):** streak, words learned, new words per day, speaking minutes, and exercises done per skill and level. Backup and restore included.
+- **Copy for Claude:** after writing or speaking, copy your answer into a Claude chat for full corrections.
 
 Each person's progress is saved in their own browser, so friends can share one link and still have separate progress.
-
-The practice material is written for this app and modelled on the Goethe exam task types; it is not official Goethe-Institut material. For the official format and sample papers see [goethe.de](https://www.goethe.de/en/spr/prf.html).
 
 ## Put it online (GitHub Pages, free)
 

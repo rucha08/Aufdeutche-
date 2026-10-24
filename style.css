@@ -140,3 +140,11 @@ fieldset.q.wrong{border-color:var(--die);background:color-mix(in srgb,var(--die)
 .lockchip{opacity:.6;cursor:not-allowed}
 .note-card{background:var(--soft)}
 .lvlcode{font-family:var(--f-display);font-size:1.6rem;color:var(--accent)}
+
+/* start page */
+.welcome .bigq{font-size:1.9rem}
+.todaywords{display:flex;flex-wrap:wrap;gap:8px}
+.tw{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 6px;max-width:100%;min-width:0;overflow-wrap:anywhere;background:#fff;border:1px solid var(--line);border-radius:14px;padding:4px 6px 4px 12px}
+.tw.done{background:color-mix(in srgb,var(--das) 12%,#fff);border-color:var(--das)}
+.tw .say{min-width:28px;height:28px}
+.bars i.gold{background:var(--gold)}
