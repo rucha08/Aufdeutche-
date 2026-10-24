@@ -1,13 +1,17 @@
 # Auf Deutsch
 
-A simple website for speaking German every day. No accounts and no server: it's plain HTML, CSS and JavaScript, so GitHub Pages can host it for free.
+A simple website for learning German in the four skills of the Goethe-Zertifikat, from **A1 to C1**, with a strong focus on **work, job interviews and official matters**. No accounts and no server: it's plain HTML, CSS and JavaScript, so GitHub Pages can host it for free.
 
-- **Today:** your streak, speaking minutes, words due, the role-play of the day and a question to answer out loud.
-- **Speak:** 10 role-plays (Bürgeramt, landlord, doctor, job interview…). The other person speaks, you answer with the microphone, and the site compares your answer with a model answer word by word. There are also phrase drills and a "talk freely" question. A **Copy for Claude** button turns what you said into a message you can paste into Claude for full corrections.
-- **Words:** 150 starter words ranked for your level, plus your own words. Spaced repetition: you see new words in full, then later you have to *say* the German.
-- **Progress:** streak, words known, speaking minutes, role-play scores, and backup/restore.
+- **🎧 Hören (Listening):** phone messages, announcements, meetings, an interview invitation, a radio report, a discussion. Played by your browser's German voice (different voices or pitches per speaker), then questions.
+- **📄 Lesen (Reading):** notices, job ads, emails from the boss, a letter from the immigration office, an employment contract, articles and commentaries, then questions.
+- **✍️ Schreiben (Writing):** forms, short messages, formal and informal emails, forum posts and a cover letter. Word counter, points checklist, useful phrases, autosaved drafts, a form check, a model answer, and **Copy for Claude** for a full correction.
+- **🎤 Sprechen (Speaking):** Goethe-style parts per level (introduce yourself, ask and answer, plan together, presentation, discussion) plus a **job interview trainer** with 14 common questions and model answers for A2–B1 and B2–C1. Also everyday role-plays and pronunciation drills.
+- **Wörter (Words):** about 400 words, about 200 of them for job search and interviews, the office, authorities and documents, and emails and phone calls. Filter by topic and level. Spaced repetition where you *say* the German.
+- **Fortschritt (Progress):** exercises done and scores per skill and level, speaking minutes, backup and restore.
 
 Each person's progress is saved in their own browser, so friends can share one link and still have separate progress.
+
+The practice material is written for this app and modelled on the Goethe exam task types; it is not official Goethe-Institut material. For the official format and sample papers see [goethe.de](https://www.goethe.de/en/spr/prf.html).
 
 ## Put it online (GitHub Pages, free)
 
@@ -42,7 +46,9 @@ index.html   page
 style.css    look (German-flag colours)
 app.js       the app
 speech.js    German voice, microphone, pronunciation scoring
-data.js      starter words, role-plays, daily questions (edit to add more)
+data.js      starter words, role-plays, daily questions
+words_pro.js work, interview, office and bureaucracy vocabulary
+exercises.js Hören, Lesen, Schreiben, Sprechen and interview material (add more here)
 ```
 
 The earlier version with accounts and an AI conversation partner (it needs a server) is kept on the `server-version` branch.

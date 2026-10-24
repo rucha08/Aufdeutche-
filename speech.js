@@ -37,17 +37,42 @@
     return r;
   }
 
-  function speak(text, opts) {
-    opts = opts || {};
-    if (!canSpeak || !text) { opts.onend && opts.onend(); return; }
-    speechSynthesis.cancel();
+  var seq = 0; // bumps when speech is cancelled, so queued dialogue lines stop
+  function utter(text, opts) {
     var u = new SpeechSynthesisUtterance(text);
     u.lang = "de-DE";
-    try { if (chosen) u.voice = chosen; } catch (e) {}
+    try { var v = opts.voice || chosen; if (v) u.voice = v; } catch (e) {}
     u.rate = opts.slow ? 0.7 : rate();
+    if (opts.pitch) u.pitch = opts.pitch;
+    return u;
+  }
+  function speak(text, opts) {
+    opts = opts || {};
+    seq++;
+    if (!canSpeak || !text) { opts.onend && opts.onend(); return; }
+    speechSynthesis.cancel();
+    var u = utter(text, opts);
     u.onend = u.onerror = function () { opts.onend && opts.onend(); };
     speechSynthesis.speak(u);
   }
+  /* A dialogue: [[speaker, text], ...]. Speakers get different voices (if the device has several) or pitches. */
+  function speakLines(lines, opts) {
+    opts = opts || {};
+    if (!canSpeak) { opts.onend && opts.onend(); return; }
+    speechSynthesis.cancel();
+    var my = ++seq, others = voices.filter(function (v) { return v !== chosen; });
+    var cast = { A: { voice: chosen, pitch: 1 }, B: { voice: others[0] || chosen, pitch: others[0] ? 1 : 0.8 }, C: { voice: others[1] || chosen, pitch: others[1] ? 1 : 1.25 } };
+    (function next(i) {
+      if (my !== seq) return;
+      if (i >= lines.length) { opts.onend && opts.onend(); return; }
+      opts.online && opts.online(i);
+      var c = cast[lines[i][0]] || cast.A;
+      var u = utter(lines[i][1], { voice: c.voice, pitch: c.pitch, slow: opts.slow });
+      u.onend = u.onerror = function () { setTimeout(function () { next(i + 1); }, 350); };
+      speechSynthesis.speak(u);
+    })(0);
+  }
+  function hush() { seq++; if (canSpeak) speechSynthesis.cancel(); }
 
   /* One recognition at a time. cb.onInterim(text), cb.onFinal(text, confidence, seconds), cb.onError(code), cb.onEnd() */
   var active = null;
@@ -156,7 +181,7 @@
     voices: function () { return voices.length ? voices : loadVoices(); },
     chosenVoice: function () { return chosen; },
     setVoice: function (uri) { chosen = voices.filter(function (v) { return v.voiceURI === uri; })[0] || chosen; try { localStorage.setItem("ad_voice", uri); } catch (e) {} },
-    speak: speak, listen: listen, stop: stop, isListening: isListening, micHelp: micHelp,
+    speak: speak, speakLines: speakLines, hush: hush, listen: listen, stop: stop, isListening: isListening, micHelp: micHelp,
     compare: compare, tipsFor: tipsFor
   };
 })();

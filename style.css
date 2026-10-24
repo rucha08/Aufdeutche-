@@ -115,3 +115,21 @@ th{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--mu
 .tablewrap{overflow-x:auto}
 #toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;max-width:calc(100% - 32px);z-index:20}
 @media (max-width:520px){h1{font-size:2rem}.bub.them{margin-right:0}.bub.me{margin-left:0}.grades{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* skills layout */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px}
+.skill{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.skill:hover{border-color:var(--ink)}
+.skicon{font-size:1.6rem;line-height:1}
+.exrow{display:flex;justify-content:space-between;align-items:center;gap:10px;text-decoration:none;color:var(--ink);padding:10px 4px;border-bottom:1px solid var(--line)}
+.exrow:last-child{border-bottom:0}
+.exrow:hover b{text-decoration:underline}
+.doc{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 16px;line-height:1.6;overflow-wrap:anywhere}
+.bigq{font-family:var(--f-display);font-size:1.45rem;line-height:1.25}
+fieldset.q{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:0;display:flex;flex-direction:column;gap:6px;background:#fff}
+fieldset.q legend{font-weight:700;padding:0 4px}
+fieldset.q.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 7%,#fff)}
+fieldset.q.wrong{border-color:var(--die);background:color-mix(in srgb,var(--die) 6%,#fff)}
+.opt{display:flex;gap:8px;align-items:flex-start;cursor:pointer;padding:3px 0}
+.opt input{margin-top:4px;accent-color:var(--accent)}
+.prompts{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:4px}

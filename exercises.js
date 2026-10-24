@@ -1,0 +1,336 @@
+/* Practice material modelled on the four Goethe-Zertifikat skills (Hören, Lesen, Schreiben, Sprechen), A1–C1.
+   Written for this app, with a focus on work, job applications and official matters. Not official Goethe-Institut material.
+   Question types: "mc" = multiple choice (answer = index), "rf" = richtig/falsch (answer = true/false). */
+window.AD_EX = {
+
+/* ================================================================ HÖREN */
+listening: [
+{ id: "h-a1-1", level: "A1", part: "Teil 3 · Ansage am Telefon", title: "Ein neuer Termin beim Bürgeramt", topic: "Behörde",
+  lines: [["A", "Guten Tag, hier ist das Bürgeramt Aachen, Frau Schmitz. Ihr Termin am Dienstag muss leider ausfallen. Wir haben einen neuen Termin für Sie: Donnerstag, der vierzehnte November, um zehn Uhr. Bitte bringen Sie Ihren Reisepass und Ihren Mietvertrag mit. Vielen Dank und auf Wiederhören."]],
+  questions: [
+    { type: "mc", q: "Wann ist der neue Termin?", options: ["Dienstag um 10 Uhr", "Donnerstag um 10 Uhr", "Donnerstag um 14 Uhr"], answer: 1 },
+    { type: "mc", q: "Was müssen Sie mitbringen?", options: ["Reisepass und Mietvertrag", "Reisepass und ein Foto", "Nur den Mietvertrag"], answer: 0 },
+    { type: "rf", q: "Der Termin am Dienstag findet statt.", answer: false, explain: "„Ihr Termin am Dienstag muss leider ausfallen.“" }
+  ] },
+{ id: "h-a1-2", level: "A1", part: "Teil 1 · Kurze Gespräche", title: "Der erste Arbeitstag", topic: "Büro",
+  lines: [["A", "Hallo, ich bin Jonas. Bist du neu hier?"], ["B", "Ja, ich heiße Mira. Ich arbeite ab heute in der Buchhaltung."], ["A", "Herzlich willkommen! Die Kaffeeküche ist im zweiten Stock, Zimmer zweihundertvier. Die Mittagspause ist um zwölf Uhr."], ["B", "Danke! Und wo ist das Büro von Frau Klein?"], ["A", "Im ersten Stock, neben dem Aufzug."]],
+  questions: [
+    { type: "mc", q: "In welcher Abteilung arbeitet Mira?", options: ["Im Marketing", "In der Buchhaltung", "Am Empfang"], answer: 1 },
+    { type: "mc", q: "Wo ist die Kaffeeküche?", options: ["Im ersten Stock", "Im zweiten Stock", "Neben dem Aufzug"], answer: 1 },
+    { type: "rf", q: "Die Mittagspause ist um zwölf Uhr.", answer: true }
+  ] },
+{ id: "h-a2-1", level: "A2", part: "Teil 2 · Durchsage", title: "Durchsage in der Agentur für Arbeit", topic: "Behörde",
+  lines: [["A", "Eine Information für alle Besucherinnen und Besucher: Die Wartenummern dreißig bis fünfundvierzig gehen bitte in den zweiten Stock, Raum zweihundertfünfzehn. Die Online-Anmeldung funktioniert heute leider nicht. Bitte füllen Sie das Formular am Empfang aus. Achtung: Unser Haus schließt heute schon um fünfzehn Uhr."]],
+  questions: [
+    { type: "mc", q: "Wohin gehen die Nummern 30 bis 45?", options: ["Zum Empfang", "In Raum 215", "In Raum 45"], answer: 1 },
+    { type: "mc", q: "Was ist heute das Problem?", options: ["Der Aufzug ist kaputt.", "Die Online-Anmeldung funktioniert nicht.", "Es gibt keine Formulare."], answer: 1 },
+    { type: "rf", q: "Das Haus ist heute bis 18 Uhr geöffnet.", answer: false, explain: "Es schließt heute schon um 15 Uhr." }
+  ] },
+{ id: "h-a2-2", level: "A2", part: "Teil 4 · Gespräch", title: "Urlaub beantragen", topic: "Büro",
+  lines: [["A", "Sag mal, Lena, wie beantrage ich eigentlich Urlaub?"], ["B", "Ganz einfach: Du füllst den Urlaubsantrag im Intranet aus. Dann bekommt Herr Wolf eine E-Mail."], ["A", "Und wie lange dauert das?"], ["B", "Meistens antwortet er in zwei oder drei Tagen. Aber im Dezember wollen viele Leute frei haben. Du solltest den Antrag bald stellen."], ["A", "Gut, dann mache ich das heute noch. Ich möchte vom zweiten bis zum sechsten Dezember frei nehmen."]],
+  questions: [
+    { type: "mc", q: "Wo beantragt man Urlaub?", options: ["Bei der Personalabteilung am Telefon", "Im Intranet", "Mit einem Brief"], answer: 1 },
+    { type: "mc", q: "Warum soll er den Antrag bald stellen?", options: ["Im Dezember möchten viele Kollegen Urlaub.", "Herr Wolf ist bald im Urlaub.", "Das Intranet funktioniert bald nicht mehr."], answer: 0 },
+    { type: "rf", q: "Er möchte im Dezember fünf Tage frei nehmen.", answer: true, explain: "Vom 2. bis zum 6. Dezember sind fünf Tage." }
+  ] },
+{ id: "h-b1-1", level: "B1", part: "Teil 1 · Nachricht auf der Mailbox", title: "Einladung zum Vorstellungsgespräch", topic: "Bewerbung",
+  lines: [["A", "Guten Tag, hier spricht Sandra Becker von der Firma Nordlicht Logistik. Vielen Dank für Ihre Bewerbung als Sachbearbeiterin im Kundenservice. Wir würden Sie gerne zu einem Vorstellungsgespräch einladen, und zwar am Mittwoch, dem zwölften November, um vierzehn Uhr dreißig. Das Gespräch dauert etwa eine Stunde und findet bei uns im Haus statt, Gebäude B, dritter Stock. Bitte bringen Sie Ihre Zeugnisse im Original mit. Wenn Sie mit dem Auto kommen: Besucherparkplätze gibt es direkt vor dem Eingang. Bitte bestätigen Sie den Termin kurz per E-Mail. Ich freue mich auf Sie!"]],
+  questions: [
+    { type: "mc", q: "Für welche Stelle hat sich die Person beworben?", options: ["Lagerarbeiterin", "Sachbearbeiterin im Kundenservice", "Assistentin der Geschäftsführung"], answer: 1 },
+    { type: "mc", q: "Was soll die Person mitbringen?", options: ["Ihre Zeugnisse im Original", "Einen Lebenslauf mit Foto", "Ihren Personalausweis"], answer: 0 },
+    { type: "mc", q: "Wie soll die Person den Termin bestätigen?", options: ["Per Telefon", "Per E-Mail", "Gar nicht, der Termin steht fest."], answer: 1 },
+    { type: "rf", q: "Das Gespräch dauert ungefähr eine Stunde.", answer: true }
+  ] },
+{ id: "h-b1-2", level: "B1", part: "Teil 2 · Besprechung", title: "Das Projekt verzögert sich", topic: "Büro",
+  lines: [["A", "Guten Morgen zusammen. Ich muss euch leider sagen: Der Kunde hat die Daten erst gestern geschickt. Deshalb schaffen wir den Termin am Freitag nicht."], ["B", "Das habe ich mir schon gedacht. Was ist der neue Termin?"], ["A", "Ich habe mit dem Kunden gesprochen. Wir liefern jetzt am Mittwoch nächster Woche. Tobias, kannst du bis Montag die Auswertung machen?"], ["B", "Bis Montag wird knapp, weil ich am Freitag auf einer Schulung bin. Dienstag früh wäre realistisch."], ["A", "Okay, dann Dienstag um neun. Ich schreibe den Bericht danach und schicke alles am Mittwoch raus."]],
+  questions: [
+    { type: "rf", q: "Der Kunde hat die Daten zu spät geschickt.", answer: true },
+    { type: "rf", q: "Das Projekt wird jetzt am Freitag geliefert.", answer: false, explain: "Neuer Liefertermin: Mittwoch nächster Woche." },
+    { type: "mc", q: "Warum kann Tobias nicht bis Montag fertig werden?", options: ["Er ist krank.", "Er hat am Freitag eine Schulung.", "Er hat keine Daten."], answer: 1 },
+    { type: "mc", q: "Wann ist die Auswertung fertig?", options: ["Montag", "Dienstag um 9 Uhr", "Mittwoch"], answer: 1 }
+  ] },
+{ id: "h-b2-1", level: "B2", part: "Teil 3 · Radiobeitrag", title: "Ausländische Abschlüsse anerkennen lassen", topic: "Behörde",
+  lines: [["A", "Wer im Ausland studiert oder eine Ausbildung gemacht hat und in Deutschland arbeiten möchte, stellt sich oft die Frage: Muss mein Abschluss anerkannt werden? Die Antwort hängt vom Beruf ab. Für sogenannte reglementierte Berufe, etwa Ärztinnen, Pflegekräfte oder Lehrer, ist die Anerkennung Pflicht. Wer dagegen in einem nicht reglementierten Beruf arbeiten möchte, zum Beispiel als Informatikerin oder Marketingmanager, braucht grundsätzlich keine Anerkennung. Trotzdem kann sie sinnvoll sein, denn Arbeitgeber können den Abschluss dann besser einordnen. Für ein Visum oder die Blaue Karte wird außerdem häufig eine Bewertung des Hochschulabschlusses verlangt. Das Verfahren kostet je nach Bundesland zwischen hundert und sechshundert Euro und dauert in der Regel bis zu drei Monate, sobald alle Unterlagen vollständig sind. Die wichtigste Anlaufstelle ist das Portal „Anerkennung in Deutschland“."]],
+  questions: [
+    { type: "mc", q: "Für wen ist die Anerkennung Pflicht?", options: ["Für alle Berufe", "Für reglementierte Berufe wie Ärzte oder Lehrer", "Nur für Menschen aus Nicht-EU-Ländern"], answer: 1 },
+    { type: "mc", q: "Warum kann eine Anerkennung auch für eine Informatikerin sinnvoll sein?", options: ["Weil sie sonst nicht arbeiten darf", "Weil Arbeitgeber den Abschluss besser einordnen können", "Weil sie dann mehr Urlaub bekommt"], answer: 1 },
+    { type: "rf", q: "Das Verfahren dauert normalerweise bis zu drei Monate, wenn alle Unterlagen vollständig sind.", answer: true },
+    { type: "rf", q: "Die Kosten sind in allen Bundesländern gleich.", answer: false, explain: "„je nach Bundesland zwischen hundert und sechshundert Euro“" }
+  ] },
+{ id: "h-b2-2", level: "B2", part: "Teil 4 · Gespräch", title: "Das Feedbackgespräch", topic: "Büro",
+  lines: [["A", "Frau Okafor, schön, dass wir uns die Zeit nehmen. Ich möchte zuerst sagen: Ihre Arbeit im letzten Halbjahr war wirklich überzeugend. Besonders die Einführung des neuen Ticketsystems lief dank Ihnen reibungslos."], ["B", "Vielen Dank, das freut mich. Ich hatte allerdings den Eindruck, dass die Abstimmung mit dem Vertrieb manchmal schwierig war."], ["A", "Das stimmt, und da sehe ich auch Ihr Entwicklungspotenzial: Sie könnten Konflikte früher ansprechen, statt alles selbst zu lösen."], ["B", "Das nehme ich gerne an. Ich würde mich in diesem Zusammenhang gern im Bereich Projektmanagement weiterbilden. Wäre eine Zertifizierung im nächsten Jahr möglich?"], ["A", "Grundsätzlich ja. Schicken Sie mir bitte ein konkretes Angebot, dann prüfe ich das Budget."]],
+  questions: [
+    { type: "mc", q: "Wofür wird Frau Okafor gelobt?", options: ["Für die Einführung des Ticketsystems", "Für ihre Verkaufszahlen", "Für ihre Pünktlichkeit"], answer: 0 },
+    { type: "mc", q: "Was soll Frau Okafor laut ihrem Vorgesetzten verbessern?", options: ["Sie soll schneller arbeiten.", "Sie soll Konflikte früher ansprechen.", "Sie soll mehr Überstunden machen."], answer: 1 },
+    { type: "rf", q: "Der Vorgesetzte lehnt die Weiterbildung ab.", answer: false, explain: "„Grundsätzlich ja … dann prüfe ich das Budget.“" }
+  ] },
+{ id: "h-c1-1", level: "C1", part: "Teil 2 · Vortrag", title: "Homeoffice und Produktivität", topic: "Büro",
+  lines: [["A", "Seit einigen Jahren wird heftig darüber gestritten, ob Menschen im Homeoffice produktiver sind. Die Studienlage ist, vorsichtig formuliert, uneinheitlich. Einerseits zeigen Untersuchungen, dass konzentrierte Einzelarbeit zu Hause oft schneller erledigt wird, weil Unterbrechungen und Pendelzeiten wegfallen. Andererseits leidet nachweislich das, was man informelles Lernen nennt: Gerade Berufseinsteiger profitieren davon, erfahrenen Kolleginnen über die Schulter zu schauen. Hinzu kommt, dass spontane Ideen häufig in zufälligen Begegnungen entstehen, etwa in der Kaffeeküche. Viele Unternehmen setzen deshalb inzwischen auf hybride Modelle mit festen Präsenztagen. Entscheidend scheint weniger der Ort zu sein als die Frage, ob Teams bewusst regeln, wofür sie sich treffen und wofür nicht."]],
+  questions: [
+    { type: "mc", q: "Wie beschreibt die Sprecherin die Studienlage?", options: ["Eindeutig positiv für das Homeoffice", "Uneinheitlich", "Eindeutig negativ für das Homeoffice"], answer: 1 },
+    { type: "mc", q: "Wer leidet laut Vortrag besonders unter fehlendem informellem Lernen?", options: ["Führungskräfte", "Berufseinsteiger", "Teilzeitkräfte"], answer: 1 },
+    { type: "mc", q: "Was ist laut der Sprecherin entscheidend?", options: ["Der Arbeitsort", "Dass Teams bewusst regeln, wofür sie sich treffen", "Die Anzahl der Präsenztage"], answer: 1 }
+  ] },
+{ id: "h-c1-2", level: "C1", part: "Teil 4 · Diskussion", title: "Die Vier-Tage-Woche", topic: "Büro",
+  lines: [["A", "Frau Dr. Hartmann, Sie beraten Unternehmen bei der Einführung der Vier-Tage-Woche. Ist das nicht ein Luxus, den wir uns angesichts des Fachkräftemangels gar nicht leisten können?"], ["B", "Ich würde es umgekehrt sehen. Gerade weil Fachkräfte knapp sind, müssen Arbeitgeber attraktiver werden. In unseren Pilotprojekten sind die Krankheitstage gesunken, und die Zahl der Bewerbungen ist teilweise deutlich gestiegen."], ["A", "Herr Brandt, Sie vertreten mittelständische Betriebe. Überzeugt Sie das?"], ["C", "Nur bedingt. In der Pflege oder im Handwerk lässt sich die Arbeit nicht einfach verdichten. Wenn ein Kunde am Freitag einen Wasserschaden hat, kann ich nicht sagen: Kommen Sie Montag wieder. Für Büroberufe mag das funktionieren, aber eine pauschale Lösung lehne ich ab."], ["B", "Da gebe ich Ihnen recht, eine Einheitslösung wäre falsch. Es geht darum, dass Betriebe flexibel ausprobieren dürfen."]],
+  questions: [
+    { type: "mc", q: "Welches Argument nennt Frau Dr. Hartmann für die Vier-Tage-Woche?", options: ["Sie spart den Unternehmen Lohnkosten.", "Sie macht Arbeitgeber für knappe Fachkräfte attraktiver.", "Sie ist gesetzlich vorgeschrieben."], answer: 1 },
+    { type: "mc", q: "Wie steht Herr Brandt dazu?", options: ["Er ist uneingeschränkt dafür.", "Er hält sie für Büroberufe möglich, lehnt aber eine pauschale Lösung ab.", "Er lehnt sie für alle Branchen ab."], answer: 1 },
+    { type: "rf", q: "Am Ende stimmt Frau Dr. Hartmann Herrn Brandt in einem Punkt zu.", answer: true, explain: "„Da gebe ich Ihnen recht, eine Einheitslösung wäre falsch.“" }
+  ] }
+],
+
+/* ================================================================ LESEN */
+reading: [
+{ id: "l-a1-1", level: "A1", part: "Teil 3 · Aushang", title: "Ein Aushang im Büro", topic: "Büro", kind: "Aushang",
+  text: "Liebe Kolleginnen und Kollegen,\n\ndie Kantine ist vom 3. bis 7. März geschlossen.\nIn dieser Woche gibt es Mittagessen im Café „Sonne“ in der Hauptstraße 12.\nMit Ihrem Mitarbeiterausweis bezahlen Sie nur 4 Euro.\n\nIhre Personalabteilung",
+  questions: [
+    { type: "rf", q: "Die Kantine ist eine Woche geschlossen.", answer: true },
+    { type: "rf", q: "Das Mittagessen im Café ist kostenlos.", answer: false, explain: "Man bezahlt 4 Euro." },
+    { type: "rf", q: "Man braucht den Mitarbeiterausweis.", answer: true }
+  ] },
+{ id: "l-a1-2", level: "A1", part: "Teil 2 · Anzeigen", title: "Stellenanzeigen", topic: "Bewerbung", kind: "Kleinanzeigen",
+  text: "A) Bäckerei Krüger sucht Verkäufer/in. Montag bis Freitag, 6 bis 12 Uhr. Deutsch: A2. Tel. 0241 55 23 10\n\nB) Büro sucht Aushilfe für 10 Stunden pro Woche. Nachmittags, flexibel. Gute Computerkenntnisse. E-Mail: jobs@buero-meyer.de\n\nC) Hotel am Dom sucht Mitarbeiter/in für den Empfang. Englisch und Deutsch B1. Auch am Wochenende.",
+  questions: [
+    { type: "mc", q: "Sie können nur nachmittags arbeiten. Welche Anzeige passt?", options: ["A", "B", "C"], answer: 1 },
+    { type: "mc", q: "Wo müssen Sie auch am Wochenende arbeiten?", options: ["A", "B", "C"], answer: 2 },
+    { type: "rf", q: "Für die Bäckerei schreibt man eine E-Mail.", answer: false, explain: "Bei der Bäckerei ruft man an (Tel.)." }
+  ] },
+{ id: "l-a2-1", level: "A2", part: "Teil 2 · E-Mail", title: "Eine E-Mail von der Chefin", topic: "Büro", kind: "E-Mail",
+  text: "Betreff: Teamsitzung verschoben\n\nHallo zusammen,\n\nunsere Teamsitzung am Montag um 9 Uhr findet leider nicht statt, weil ich zu einem Kunden nach Köln fahren muss. Wir treffen uns stattdessen am Dienstag um 10 Uhr im Raum „Berlin“. Bitte bringt eure Wochenberichte mit. Wer am Dienstag nicht kann, schickt mir den Bericht bitte bis Montagabend per E-Mail.\n\nViele Grüße\nKatrin",
+  questions: [
+    { type: "mc", q: "Warum findet die Sitzung am Montag nicht statt?", options: ["Katrin ist krank.", "Katrin fährt zu einem Kunden.", "Der Raum ist besetzt."], answer: 1 },
+    { type: "mc", q: "Was sollen die Kollegen mitbringen?", options: ["Ihren Wochenbericht", "Ihren Laptop", "Nichts"], answer: 0 },
+    { type: "rf", q: "Wer am Dienstag nicht kommen kann, schickt den Bericht per E-Mail.", answer: true }
+  ] },
+{ id: "l-a2-2", level: "A2", part: "Teil 3 · Information", title: "Termin beim Bürgeramt online buchen", topic: "Behörde", kind: "Webseite",
+  text: "So buchen Sie einen Termin:\n1. Wählen Sie auf unserer Webseite die Dienstleistung, z. B. „Wohnung anmelden“.\n2. Wählen Sie einen freien Termin im Kalender.\n3. Geben Sie Ihren Namen und Ihre E-Mail-Adresse ein.\n4. Sie bekommen eine Bestätigung per E-Mail. Bringen Sie diese zum Termin mit.\n\nWichtig: Sie müssen Ihre neue Wohnung innerhalb von 14 Tagen nach dem Umzug anmelden. Wenn Sie den Termin nicht wahrnehmen können, sagen Sie ihn bitte online ab.",
+  questions: [
+    { type: "mc", q: "Was bekommen Sie nach der Buchung?", options: ["Einen Brief", "Eine Bestätigung per E-Mail", "Einen Anruf"], answer: 1 },
+    { type: "rf", q: "Man muss die Wohnung innerhalb von zwei Wochen anmelden.", answer: true },
+    { type: "rf", q: "Einen Termin sagt man am Telefon ab.", answer: false, explain: "„sagen Sie ihn bitte online ab“" }
+  ] },
+{ id: "l-b1-1", level: "B1", part: "Teil 2 · Stellenanzeige", title: "Sachbearbeiter/in Kundenservice", topic: "Bewerbung", kind: "Stellenanzeige",
+  text: "Nordlicht Logistik GmbH – Wir bewegen Europa.\n\nFür unseren Standort Aachen suchen wir ab sofort eine/n\nSachbearbeiter/in Kundenservice (m/w/d) in Vollzeit oder Teilzeit (mind. 30 Std.)\n\nIhre Aufgaben:\n• Sie beantworten Anfragen unserer Kunden per Telefon und E-Mail.\n• Sie erstellen Angebote und bearbeiten Reklamationen.\n• Sie arbeiten eng mit unserem Lager und dem Vertrieb zusammen.\n\nIhr Profil:\n• abgeschlossene kaufmännische Ausbildung oder vergleichbare Erfahrung\n• sehr gute Deutschkenntnisse (mind. B2), gute Englischkenntnisse\n• sicherer Umgang mit MS Office\n\nWir bieten:\n• unbefristeten Arbeitsvertrag, 30 Tage Urlaub\n• flexible Arbeitszeiten und zwei Tage Homeoffice pro Woche\n• Zuschuss zum Deutschlandticket\n\nBitte senden Sie Ihre vollständigen Bewerbungsunterlagen mit Gehaltsvorstellung und frühestmöglichem Eintrittstermin an karriere@nordlicht-logistik.de.",
+  questions: [
+    { type: "rf", q: "Die Stelle ist nur in Vollzeit zu besetzen.", answer: false, explain: "„in Vollzeit oder Teilzeit (mind. 30 Std.)“" },
+    { type: "rf", q: "Man braucht mindestens Deutschkenntnisse auf B2-Niveau.", answer: true },
+    { type: "mc", q: "Was gehört NICHT zu den Aufgaben?", options: ["Angebote erstellen", "Lager leiten", "Reklamationen bearbeiten"], answer: 1 },
+    { type: "mc", q: "Was soll man zusätzlich zu den Unterlagen angeben?", options: ["Gehaltsvorstellung und Eintrittstermin", "Ein Foto und Hobbys", "Zwei Referenzen"], answer: 0 }
+  ] },
+{ id: "l-b1-2", level: "B1", part: "Teil 4 · Behördenbrief", title: "Ihr Aufenthaltstitel läuft ab", topic: "Behörde", kind: "Brief",
+  text: "Stadt Aachen – Ausländeramt\n\nSehr geehrte Frau Sharma,\n\nIhr Aufenthaltstitel ist gültig bis zum 31.01. Bitte beantragen Sie die Verlängerung rechtzeitig, spätestens sechs Wochen vor Ablauf. Buchen Sie dafür einen Termin über unser Online-Portal.\n\nBitte bringen Sie zum Termin folgende Unterlagen mit:\n– gültigen Reisepass\n– ein aktuelles biometrisches Passfoto\n– Arbeitsvertrag und die letzten drei Gehaltsabrechnungen\n– Nachweis über Ihre Krankenversicherung\n– Mietvertrag oder Wohnungsgeberbestätigung\n\nDie Gebühr beträgt in der Regel 93 Euro und ist beim Termin zu bezahlen. Sollten Unterlagen fehlen, kann Ihr Antrag nicht bearbeitet werden.\n\nMit freundlichen Grüßen\nIm Auftrag\nM. Hoffmann",
+  questions: [
+    { type: "mc", q: "Bis wann soll Frau Sharma die Verlängerung spätestens beantragen?", options: ["Bis zum 31.01.", "Sechs Wochen vor dem 31.01.", "Sechs Wochen nach dem 31.01."], answer: 1 },
+    { type: "mc", q: "Welche Unterlage wird NICHT verlangt?", options: ["Gehaltsabrechnungen", "Ein Schulzeugnis", "Nachweis über die Krankenversicherung"], answer: 1 },
+    { type: "rf", q: "Die Gebühr bezahlt man beim Termin.", answer: true },
+    { type: "rf", q: "Fehlende Unterlagen kann man später per Post schicken.", answer: false, explain: "„Sollten Unterlagen fehlen, kann Ihr Antrag nicht bearbeitet werden.“" }
+  ] },
+{ id: "l-b2-1", level: "B2", part: "Teil 3 · Zeitungsartikel", title: "So überzeugen Sie im Vorstellungsgespräch", topic: "Bewerbung", kind: "Artikel",
+  text: "Wer zum Vorstellungsgespräch eingeladen wird, hat die erste Hürde bereits genommen: Die Unterlagen haben überzeugt. Nun geht es darum, ob die Person ins Team passt. Personalerinnen berichten, dass viele Kandidaten den Fehler machen, ihren Lebenslauf einfach nachzuerzählen. Viel überzeugender sei es, zwei oder drei konkrete Beispiele vorzubereiten, die zeigen, wie man ein Problem gelöst hat. Bewährt hat sich dabei die sogenannte STAR-Methode: Man beschreibt die Situation, die Aufgabe, die eigene Handlung und das Ergebnis.\n\nAuch die Frage nach Schwächen sollte man nicht mit Floskeln wie „Ich bin zu perfektionistisch“ beantworten. Glaubwürdiger ist eine echte, aber nicht entscheidende Schwäche, verbunden mit dem, was man dagegen unternimmt. Und schließlich: Wer am Ende keine eigenen Fragen stellt, wirkt schnell desinteressiert. Fragen nach der Einarbeitung oder nach den Zielen des Teams für das nächste Jahr kommen meist gut an.",
+  questions: [
+    { type: "mc", q: "Welchen Fehler machen laut Text viele Kandidaten?", options: ["Sie kommen zu spät.", "Sie erzählen nur ihren Lebenslauf nach.", "Sie stellen zu viele Fragen."], answer: 1 },
+    { type: "mc", q: "Wofür steht die STAR-Methode?", options: ["Stärken, Talente, Abschlüsse, Referenzen", "Situation, Aufgabe, Handlung, Ergebnis", "Sprache, Team, Arbeit, Ruhe"], answer: 1 },
+    { type: "mc", q: "Wie sollte man auf die Frage nach Schwächen antworten?", options: ["Mit „Ich bin zu perfektionistisch“", "Man sollte keine Schwäche nennen.", "Mit einer echten, nicht entscheidenden Schwäche und dem, was man dagegen tut"], answer: 2 },
+    { type: "rf", q: "Fragen zur Einarbeitung wirken laut Text desinteressiert.", answer: false, explain: "Sie „kommen meist gut an“." }
+  ] },
+{ id: "l-b2-2", level: "B2", part: "Teil 5 · Vertrag", title: "Auszug aus einem Arbeitsvertrag", topic: "Bewerbung", kind: "Vertrag",
+  text: "§ 2 Probezeit\nDie ersten sechs Monate des Arbeitsverhältnisses gelten als Probezeit. Während der Probezeit kann das Arbeitsverhältnis von beiden Seiten mit einer Frist von zwei Wochen gekündigt werden.\n\n§ 4 Arbeitszeit\nDie regelmäßige wöchentliche Arbeitszeit beträgt 40 Stunden. Überstunden werden innerhalb von drei Monaten durch Freizeit ausgeglichen. Ist dies aus betrieblichen Gründen nicht möglich, werden sie mit dem nächsten Gehalt vergütet.\n\n§ 6 Urlaub\nDer Arbeitnehmer hat Anspruch auf 28 Arbeitstage Erholungsurlaub pro Kalenderjahr. Nicht genommener Urlaub verfällt am 31. März des Folgejahres.\n\n§ 9 Kündigung\nNach Ablauf der Probezeit gelten die gesetzlichen Kündigungsfristen. Die Kündigung bedarf der Schriftform.",
+  questions: [
+    { type: "rf", q: "In der Probezeit beträgt die Kündigungsfrist zwei Wochen.", answer: true },
+    { type: "mc", q: "Was passiert normalerweise mit Überstunden?", options: ["Sie werden sofort bezahlt.", "Sie werden durch Freizeit ausgeglichen.", "Sie verfallen."], answer: 1 },
+    { type: "rf", q: "Resturlaub kann man bis Ende Dezember des Folgejahres nehmen.", answer: false, explain: "Er verfällt am 31. März des Folgejahres." },
+    { type: "mc", q: "Wie muss eine Kündigung erfolgen?", options: ["Mündlich", "Per E-Mail", "Schriftlich"], answer: 2 }
+  ] },
+{ id: "l-c1-1", level: "C1", part: "Teil 2 · Kommentar", title: "Bürokratie als Wachstumsbremse?", topic: "Behörde", kind: "Kommentar",
+  text: "Kaum ein Thema eint Wirtschaftsverbände und Zugewanderte so sehr wie die Klage über deutsche Bürokratie. Wer als ausländische Fachkraft nach Deutschland kommt, sammelt in den ersten Monaten nicht selten mehr Stempel als Arbeitserfahrung: Wohnsitzanmeldung, Steuer-Identifikationsnummer, Krankenversicherung, Aufenthaltstitel, Anerkennung des Abschlusses. Jeder Schritt setzt oft den vorherigen voraus, und wer an einer Stelle hängen bleibt, wartet mitunter wochenlang.\n\nDennoch wäre es zu kurz gegriffen, Verwaltung pauschal als Bremse abzutun. Viele Verfahren dienen dem Schutz von Arbeitnehmern, etwa die Prüfung, ob Gehalt und Arbeitsbedingungen dem Tarifniveau entsprechen. Das eigentliche Problem liegt weniger in der Existenz von Regeln als in ihrer Umsetzung: in Formularen, die nur auf Papier existieren, in Behörden, die ihre Daten nicht austauschen dürfen, und in Personalengpässen, die Bearbeitungszeiten in die Länge ziehen. Eine konsequent digitalisierte Verwaltung würde vermutlich mehr bewirken als jede weitere Debatte über Regelabbau.",
+  questions: [
+    { type: "mc", q: "Was kritisiert der Autor vor allem?", options: ["Dass es zu viele Regeln gibt", "Wie die Regeln umgesetzt werden", "Dass Fachkräfte zu wenig verdienen"], answer: 1 },
+    { type: "mc", q: "Welche Funktion haben manche Verfahren laut Text?", options: ["Sie schützen Arbeitnehmer.", "Sie schrecken Zuwanderer ab.", "Sie finanzieren die Verwaltung."], answer: 0 },
+    { type: "mc", q: "Was schlägt der Autor als Lösung vor?", options: ["Einen umfassenden Regelabbau", "Eine konsequent digitalisierte Verwaltung", "Mehr Papierformulare"], answer: 1 },
+    { type: "rf", q: "Laut Text hängen die einzelnen Schritte oft voneinander ab.", answer: true }
+  ] },
+{ id: "l-c1-2", level: "C1", part: "Teil 4 · Interne Mitteilung", title: "Neuorganisation der Abteilungen", topic: "Büro", kind: "Mitteilung",
+  text: "An alle Mitarbeitenden\n\nwie bereits auf der Betriebsversammlung angekündigt, werden die Abteilungen Vertrieb und Kundenservice zum 1. Januar zu einem gemeinsamen Bereich „Customer Success“ zusammengeführt. Ziel ist es, Kundinnen und Kunden künftig aus einer Hand zu betreuen und Abstimmungsschleifen zu verringern.\n\nBetriebsbedingte Kündigungen sind im Zuge der Umstrukturierung ausdrücklich nicht vorgesehen. Gleichwohl werden sich für einige von Ihnen Zuständigkeiten und Ansprechpartner ändern. Ihre jeweilige Führungskraft wird bis Ende November in Einzelgesprächen klären, welche Aufgaben Sie künftig übernehmen. Wer sich für eine Rolle im neuen Bereich interessiert, die über die bisherige Tätigkeit hinausgeht, kann dies bereits jetzt formlos bei der Personalabteilung signalisieren. Entsprechende Qualifizierungsmaßnahmen werden vom Unternehmen getragen.\n\nDer Betriebsrat war in die Planung eingebunden und hat der Neuorganisation zugestimmt.",
+  questions: [
+    { type: "rf", q: "Im Rahmen der Umstrukturierung sind Kündigungen geplant.", answer: false, explain: "„ausdrücklich nicht vorgesehen“" },
+    { type: "mc", q: "Was passiert bis Ende November?", options: ["Die Abteilungen werden zusammengelegt.", "Führungskräfte führen Einzelgespräche über künftige Aufgaben.", "Der Betriebsrat stimmt ab."], answer: 1 },
+    { type: "mc", q: "Wer bezahlt Weiterbildungen für neue Rollen?", options: ["Die Mitarbeitenden selbst", "Das Unternehmen", "Die Agentur für Arbeit"], answer: 1 },
+    { type: "rf", q: "Der Betriebsrat wurde erst nachträglich informiert.", answer: false, explain: "Er „war in die Planung eingebunden“." }
+  ] }
+],
+
+/* ================================================================ SCHREIBEN */
+writing: [
+{ id: "s-a1-1", level: "A1", part: "Teil 1 · Formular", title: "Ein Formular ausfüllen", topic: "Behörde", type: "form",
+  situation: "Ihre Freundin Ana Costa möchte einen Deutschkurs an der Volkshochschule machen. Sie hilft ihr beim Formular.\n\nAna kommt aus Portugal und wohnt seit März in Aachen, in der Lothringerstraße 15, 52062 Aachen. Sie ist 29 Jahre alt und arbeitet als Krankenpflegerin. Sie kann nur abends lernen. Bezahlen möchte sie mit Überweisung.",
+  fields: [
+    { label: "Familienname", answer: ["Costa"] },
+    { label: "Herkunftsland", answer: ["Portugal"] },
+    { label: "Postleitzahl, Wohnort", answer: ["52062 Aachen", "52062, Aachen"] },
+    { label: "Beruf", answer: ["Krankenpflegerin", "Pflegerin"] },
+    { label: "Kurszeit (morgens / abends)", answer: ["abends"] },
+    { label: "Zahlungsart (bar / Überweisung)", answer: ["Überweisung"] }
+  ] },
+{ id: "s-a1-2", level: "A1", part: "Teil 2 · Kurze Mitteilung", title: "Sie sind krank", topic: "Büro", type: "text", words: [30, 40], formal: false,
+  situation: "Sie sind krank und können heute nicht zur Arbeit gehen. Schreiben Sie Ihrer Kollegin Julia eine Nachricht.",
+  points: ["Warum Sie nicht kommen", "Was Julia Ihrem Chef sagen soll", "Wann Sie wieder im Büro sind"],
+  phrases: ["Liebe Julia,", "ich bin leider krank.", "Kannst du bitte … sagen, dass …?", "Ich komme am … wieder.", "Viele Grüße"],
+  model: "Liebe Julia,\nich bin leider krank und habe Fieber. Ich kann heute nicht ins Büro kommen. Kannst du bitte Herrn Weber sagen, dass ich heute fehle? Ich gehe heute zum Arzt. Ich komme am Donnerstag wieder.\nViele Grüße\nAnna" },
+{ id: "s-a2-1", level: "A2", part: "Teil 1 · SMS", title: "Sie kommen später zum Meeting", topic: "Büro", type: "text", words: [20, 30], formal: false,
+  situation: "Sie sind im Zug. Der Zug hat Verspätung. Schreiben Sie eine SMS an Ihren Kollegen Max.",
+  points: ["Entschuldigen Sie sich.", "Sagen Sie, warum Sie zu spät kommen.", "Schreiben Sie, wann Sie im Büro sind."],
+  phrases: ["Hallo Max,", "es tut mir leid, aber …", "Mein Zug hat … Minuten Verspätung.", "Ich bin gegen … Uhr da.", "Kannst du schon mal anfangen?"],
+  model: "Hallo Max, es tut mir leid, aber ich komme später zum Meeting. Mein Zug hat 30 Minuten Verspätung. Ich bin gegen 9:45 Uhr im Büro. Fangt bitte schon an! Gruß, Sara" },
+{ id: "s-a2-2", level: "A2", part: "Teil 2 · E-Mail", title: "Einen freien Tag erbitten", topic: "Büro", type: "text", words: [30, 40], formal: true,
+  situation: "Sie haben nächsten Freitag einen Termin beim Ausländeramt. Schreiben Sie eine E-Mail an Ihre Chefin, Frau Neumann.",
+  points: ["Sagen Sie, warum Sie schreiben.", "Fragen Sie, ob Sie frei nehmen können.", "Machen Sie einen Vorschlag, wann Sie die Arbeit nachholen."],
+  phrases: ["Liebe Frau Neumann,", "ich habe am … einen Termin beim …", "Könnte ich an diesem Tag frei nehmen?", "Ich kann die Stunden gern am … nachholen.", "Viele Grüße"],
+  model: "Liebe Frau Neumann,\nich habe nächsten Freitag um 10 Uhr einen Termin beim Ausländeramt. Mein Visum muss verlängert werden. Könnte ich an diesem Tag frei nehmen? Ich kann die Stunden gern am Montag und Dienstag nachholen.\nViele Grüße\nRavi Kumar" },
+{ id: "s-b1-1", level: "B1", part: "Teil 1 · Persönliche E-Mail", title: "Von der neuen Stelle erzählen", topic: "Büro", type: "text", words: [80, 100], formal: false,
+  situation: "Sie haben vor einem Monat eine neue Stelle angefangen. Ihr Freund Daniel möchte wissen, wie es Ihnen geht. Schreiben Sie ihm eine E-Mail.",
+  points: ["Beschreiben Sie Ihre Aufgaben.", "Erzählen Sie, was Ihnen gefällt und was schwierig ist.", "Schlagen Sie ein Treffen vor."],
+  phrases: ["Lieber Daniel,", "danke für deine Nachricht!", "Seit einem Monat arbeite ich als …", "Was mir besonders gefällt, ist …", "Schwierig finde ich, dass …", "Hast du Lust, dass wir uns … treffen?", "Liebe Grüße"],
+  model: "Lieber Daniel,\nvielen Dank für deine Nachricht! Seit einem Monat arbeite ich jetzt als Sachbearbeiterin bei einer Logistikfirma. Ich beantworte Kundenanfragen am Telefon und per E-Mail und erstelle Angebote. Mir gefällt besonders, dass meine Kolleginnen und Kollegen sehr hilfsbereit sind. Schwierig finde ich noch die Telefonate, weil viele Kunden sehr schnell und mit Dialekt sprechen. Aber es wird jeden Tag besser!\nHast du Lust, dass wir uns am Samstag auf einen Kaffee treffen? Dann erzähle ich dir mehr.\nLiebe Grüße\nPriya" },
+{ id: "s-b1-2", level: "B1", part: "Teil 3 · Formelle E-Mail", title: "Einen Termin absagen", topic: "Bewerbung", type: "text", words: [40, 60], formal: true,
+  situation: "Sie sind zu einem Vorstellungsgespräch bei Frau Becker eingeladen, können den Termin aber nicht wahrnehmen. Schreiben Sie Frau Becker eine E-Mail.",
+  points: ["Entschuldigen Sie sich höflich und nennen Sie den Grund.", "Bitten Sie um einen neuen Termin.", "Nennen Sie, wann Sie Zeit haben."],
+  phrases: ["Sehr geehrte Frau Becker,", "vielen Dank für die Einladung zum Vorstellungsgespräch.", "Leider kann ich den Termin am … nicht wahrnehmen, da …", "Wäre es möglich, einen neuen Termin zu vereinbaren?", "Ich hätte am … oder am … Zeit.", "Mit freundlichen Grüßen"],
+  model: "Sehr geehrte Frau Becker,\nvielen Dank für die Einladung zum Vorstellungsgespräch. Leider kann ich den Termin am Mittwoch nicht wahrnehmen, da ich an diesem Tag eine Prüfung an der Universität habe. Wäre es möglich, einen neuen Termin zu vereinbaren? Ich hätte am Donnerstag oder Freitag ganztägig Zeit.\nMit freundlichen Grüßen\nAmir Haddad" },
+{ id: "s-b2-1", level: "B2", part: "Teil 1 · Forumsbeitrag", title: "Homeoffice für alle?", topic: "Büro", type: "text", forum: true, words: [150, 180], formal: false,
+  situation: "In einem Online-Forum wird diskutiert: „Sollte jeder Arbeitnehmer ein Recht auf Homeoffice haben?“ Schreiben Sie einen Beitrag mit Ihrer Meinung.",
+  points: ["Nennen Sie Ihre Meinung.", "Nennen Sie Vorteile des Homeoffice.", "Nennen Sie Nachteile oder Grenzen.", "Machen Sie einen Vorschlag für eine gute Lösung."],
+  phrases: ["Meiner Meinung nach …", "Ein wichtiger Vorteil ist, dass …", "Andererseits darf man nicht vergessen, dass …", "Hinzu kommt, dass …", "Aus meiner Erfahrung kann ich sagen, dass …", "Eine sinnvolle Lösung wäre …", "Zusammenfassend lässt sich sagen, …"],
+  model: "Meiner Meinung nach sollte es ein Recht auf Homeoffice geben, allerdings nicht ohne Grenzen.\n\nEin wichtiger Vorteil ist, dass man viel Zeit spart, weil das Pendeln wegfällt. Gerade wer Kinder hat oder weit entfernt wohnt, kann Beruf und Familie so besser vereinbaren. Außerdem kann ich mich zu Hause oft besser konzentrieren als im Großraumbüro. Viele Unternehmen sparen zudem Kosten für Büroflächen, und Beschäftigte, die ihre Zeit selbst einteilen können, sind häufig zufriedener und motivierter.\n\nAndererseits darf man nicht vergessen, dass nicht jeder Beruf für das Homeoffice geeignet ist. Eine Pflegekraft oder ein Elektriker kann seine Arbeit nicht am Küchentisch erledigen. Hinzu kommt, dass der Kontakt zu Kolleginnen und Kollegen leidet. Aus meiner Erfahrung kann ich sagen, dass neue Mitarbeiter am Anfang viel lernen, wenn sie im Büro sind.\n\nEine sinnvolle Lösung wäre deshalb ein Recht auf zwei Tage Homeoffice pro Woche, wenn die Tätigkeit es zulässt. Die übrigen Tage sollte das Team bewusst für Besprechungen und gemeinsames Arbeiten nutzen. So profitieren beide Seiten." },
+{ id: "s-b2-2", level: "B2", part: "Teil 2 · Formelle Nachricht", title: "Anfrage an die Personalabteilung", topic: "Büro", type: "text", words: [100, 120], formal: true,
+  situation: "Ihr Unternehmen bietet Weiterbildungen an. Sie möchten an einem Kurs „Projektmanagement“ teilnehmen, der zum Teil während der Arbeitszeit stattfindet. Schreiben Sie an Herrn Lorenz aus der Personalabteilung.",
+  points: ["Stellen Sie sich kurz vor und nennen Sie Ihr Anliegen.", "Begründen Sie, warum der Kurs für Ihre Arbeit sinnvoll ist.", "Fragen Sie nach Kostenübernahme und Freistellung.", "Bieten Sie an, Unterlagen nachzureichen."],
+  phrases: ["Sehr geehrter Herr Lorenz,", "ich arbeite seit … in der Abteilung …", "Ich wende mich an Sie, weil …", "Der Kurs wäre für meine Tätigkeit besonders hilfreich, da …", "Ich möchte Sie daher fragen, ob …", "Gern lasse ich Ihnen weitere Informationen zukommen.", "Mit freundlichen Grüßen"],
+  model: "Sehr geehrter Herr Lorenz,\nich arbeite seit zwei Jahren im Kundenservice und wende mich mit einer Frage zur Weiterbildung an Sie. Ich würde gern am Kurs „Projektmanagement“ der IHK teilnehmen, der im Februar beginnt.\nDer Kurs wäre für meine Tätigkeit besonders hilfreich, da ich zunehmend kleinere Projekte koordiniere, etwa die Einführung neuer Prozesse im Team.\nIch möchte Sie daher fragen, ob das Unternehmen die Kursgebühr von 890 Euro übernehmen könnte und ob ich für die vier Präsenztage freigestellt werden kann. Meine Vorgesetzte, Frau Kaya, unterstützt den Antrag.\nGern lasse ich Ihnen das Kursprogramm zukommen.\nMit freundlichen Grüßen\nLeila Nouri" },
+{ id: "s-c1-1", level: "C1", part: "Teil 1 · Stellungnahme", title: "Anonyme Bewerbungen", topic: "Bewerbung", type: "text", forum: true, words: [200, 250], formal: false,
+  situation: "In einem Fachforum wird diskutiert, ob Unternehmen nur noch anonymisierte Bewerbungen (ohne Name, Foto, Alter und Herkunft) akzeptieren sollten. Verfassen Sie einen Forumsbeitrag.",
+  points: ["Ordnen Sie das Thema ein und nehmen Sie Stellung.", "Wägen Sie Argumente dafür und dagegen ab.", "Gehen Sie auf mögliche Folgen für Unternehmen und Bewerbende ein.", "Ziehen Sie ein begründetes Fazit."],
+  phrases: ["Die Frage, ob …, wird seit Langem kontrovers diskutiert.", "Für … spricht in erster Linie, dass …", "Dem lässt sich entgegenhalten, dass …", "Nicht zu unterschätzen ist …", "Vor diesem Hintergrund …", "Alles in allem bin ich der Auffassung, dass …"],
+  model: "Die Frage, ob anonymisierte Bewerbungen zur Pflicht werden sollten, wird seit Langem kontrovers diskutiert. Ich halte sie für ein sinnvolles, aber kein ausreichendes Instrument.\n\nFür anonyme Verfahren spricht in erster Linie, dass unbewusste Vorurteile in der ersten Auswahlrunde weniger Gewicht haben. Studien zeigen, dass Bewerberinnen und Bewerber mit ausländisch klingendem Namen bei gleicher Qualifikation seltener eingeladen werden. Das ist nicht nur ungerecht, sondern auch wirtschaftlich unklug, denn Unternehmen entgeht auf diese Weise ein erheblicher Teil des Fachkräftepotenzials. Wer zunächst nur nach Kompetenzen beurteilt wird, erhält zumindest die Chance, sich persönlich vorzustellen.\n\nDem lässt sich entgegenhalten, dass die Diskriminierung dadurch lediglich verschoben wird: Spätestens im Vorstellungsgespräch sind Herkunft und Alter sichtbar. Zudem bedeutet die Anonymisierung gerade für kleine Betriebe zusätzlichen Aufwand, und manche Informationen, etwa Lücken im Lebenslauf, lassen sich ohne Kontext schwer bewerten. Hinzu kommt, dass Bewerbende ihre Persönlichkeit und besondere Lebenswege, etwa eine Migrationsgeschichte oder ein Engagement im Ehrenamt, kaum noch sichtbar machen können, obwohl gerade solche Erfahrungen für viele Stellen ein Gewinn wären.\n\nVor diesem Hintergrund halte ich eine generelle Pflicht für überzogen. Sinnvoller wäre es, anonyme Verfahren in der ersten Runde zu fördern und zugleich Personalverantwortliche gezielt zu schulen. Alles in allem bin ich der Auffassung, dass Chancengleichheit nicht allein durch ein geschwärztes Foto entsteht, sondern durch eine Kultur, die Vielfalt tatsächlich wertschätzt." },
+{ id: "s-c1-2", level: "C1", part: "Teil 2 · Formelles Schreiben", title: "Das Anschreiben", topic: "Bewerbung", type: "text", words: [150, 200], formal: true,
+  situation: "Sie bewerben sich auf die Stelle „Projektkoordinator/in Digitalisierung (m/w/d)“ bei der Stadtwerke Rheinland GmbH. Gesucht werden Erfahrung in Projektarbeit, analytische Fähigkeiten und sehr gute Deutschkenntnisse. Verfassen Sie das Anschreiben an Frau Dr. Wagner.",
+  points: ["Beziehen Sie sich auf die Stelle und wecken Sie Interesse.", "Stellen Sie Ihre relevante Erfahrung mit einem konkreten Beispiel dar.", "Begründen Sie, warum Sie gerade zu diesem Unternehmen passen.", "Nennen Sie Eintrittstermin und Gehaltsvorstellung und schließen Sie höflich."],
+  phrases: ["Sehr geehrte Frau Dr. Wagner,", "mit großem Interesse habe ich Ihre Ausschreibung … gelesen.", "In meiner derzeitigen Position als … verantworte ich …", "Besonders reizt mich an Ihrem Unternehmen, dass …", "Meine Gehaltsvorstellung liegt bei … Euro brutto jährlich.", "Über die Einladung zu einem persönlichen Gespräch freue ich mich sehr.", "Mit freundlichen Grüßen"],
+  model: "Sehr geehrte Frau Dr. Wagner,\n\nmit großem Interesse habe ich Ihre Ausschreibung für die Position als Projektkoordinatorin Digitalisierung gelesen. Die Verbindung von öffentlicher Daseinsvorsorge und digitaler Transformation entspricht genau dem, was ich beruflich weiterentwickeln möchte.\n\nIn meiner derzeitigen Position als Data Analyst bei einem mittelständischen Energieversorger verantworte ich die Einführung eines digitalen Zählerstand-Portals. Dabei habe ich ein interdisziplinäres Team aus IT, Kundenservice und Rechtsabteilung koordiniert und die Bearbeitungszeit von Kundenanfragen um rund 30 Prozent gesenkt.\n\nBesonders reizt mich an Ihrem Unternehmen, dass Sie Digitalisierung nicht als reines IT-Projekt verstehen, sondern die Bedürfnisse der Bürgerinnen und Bürger in den Mittelpunkt stellen. Mein Masterstudium mit Schwerpunkt Digitalisierung und meine Deutschkenntnisse auf C1-Niveau ermöglichen es mir, mich schnell einzuarbeiten.\n\nIch könnte die Stelle zum 1. Februar antreten. Meine Gehaltsvorstellung liegt bei 58.000 Euro brutto jährlich. Über die Einladung zu einem persönlichen Gespräch freue ich mich sehr.\n\nMit freundlichen Grüßen\nAylin Demir" }
+],
+
+/* ================================================================ SPRECHEN (Goethe-style parts) */
+speaking: [
+{ id: "p-a1-1", level: "A1", part: "Teil 1 · Sich vorstellen", title: "Stellen Sie sich vor", seconds: 60,
+  task: "Stellen Sie sich vor. Sagen Sie etwas zu jedem Stichwort.",
+  prompts: ["Name", "Alter", "Land", "Wohnort", "Sprachen", "Beruf", "Hobby"],
+  phrases: ["Ich heiße …", "Ich bin … Jahre alt.", "Ich komme aus …", "Ich wohne in …", "Ich spreche …", "Ich bin … von Beruf.", "Mein Hobby ist …"],
+  model: "Guten Tag! Ich heiße Rucha. Ich bin achtundzwanzig Jahre alt. Ich komme aus Indien und wohne jetzt in Aachen. Ich spreche Englisch, Hindi, Marathi und ein bisschen Deutsch. Ich bin Studentin und arbeite auch als Datenanalystin. Mein Hobby ist Kochen." },
+{ id: "p-a1-2", level: "A1", part: "Teil 2 · Fragen stellen und antworten", title: "Thema: Arbeit", seconds: 90,
+  task: "Sie bekommen Karten mit Wörtern zum Thema „Arbeit“. Stellen Sie zu jeder Karte eine Frage. Beantworten Sie die Frage dann auch selbst.",
+  prompts: ["Beruf", "Arbeitszeit", "Kollegen", "Mittagspause", "Urlaub"],
+  phrases: ["Was sind Sie von Beruf?", "Wann fangen Sie morgens an?", "Wie sind Ihre Kollegen?", "Wo essen Sie mittags?", "Wann haben Sie Urlaub?"],
+  model: "Was sind Sie von Beruf? – Ich bin Krankenpfleger. Wann fangen Sie morgens an? – Ich fange um sechs Uhr an. Wie sind Ihre Kollegen? – Meine Kollegen sind sehr nett. Wo essen Sie mittags? – Ich esse in der Kantine. Wann haben Sie Urlaub? – Im August habe ich zwei Wochen Urlaub." },
+{ id: "p-a1-3", level: "A1", part: "Teil 3 · Bitten formulieren", title: "Im Büro um etwas bitten", seconds: 60,
+  task: "Sie sind im Büro. Bitten Sie Ihre Kollegin um etwas. Ein Wort pro Bitte.",
+  prompts: ["Kugelschreiber", "Fenster öffnen", "Drucker", "Telefonnummer", "langsam sprechen"],
+  phrases: ["Kannst du mir bitte … geben?", "Kannst du bitte das Fenster öffnen?", "Wo ist der Drucker, bitte?", "Hast du die Telefonnummer von …?", "Kannst du bitte langsamer sprechen?"],
+  model: "Kannst du mir bitte einen Kugelschreiber geben? Kannst du bitte das Fenster öffnen? Es ist so warm. Entschuldigung, wo ist der Drucker? Hast du die Telefonnummer von Herrn Weber? Kannst du bitte langsamer sprechen?" },
+{ id: "p-a2-1", level: "A2", part: "Teil 1 · Fragen zur Person", title: "Kennenlernen am Arbeitsplatz", seconds: 90,
+  task: "Fragen Sie Ihre neue Kollegin und antworten Sie selbst. Benutzen Sie die Stichwörter.",
+  prompts: ["Wohnen", "Arbeitsweg", "Sprachen", "Freizeit", "Familie"],
+  phrases: ["Wo wohnst du?", "Wie kommst du zur Arbeit?", "Welche Sprachen sprichst du?", "Was machst du in deiner Freizeit?", "Hast du Familie hier?"],
+  model: "Wo wohnst du? – Ich wohne in Burtscheid, das ist nicht weit vom Büro. Wie kommst du zur Arbeit? – Meistens fahre ich mit dem Bus, das dauert zwanzig Minuten. Welche Sprachen sprichst du? – Ich spreche Englisch, Arabisch und jetzt auch Deutsch. Was machst du in deiner Freizeit? – Am Wochenende gehe ich gern wandern." },
+{ id: "p-a2-2", level: "A2", part: "Teil 2 · Über sich sprechen", title: "Mein Beruf", seconds: 90,
+  task: "Erzählen Sie über Ihren Beruf oder Ihr Studium. Die Fragen helfen Ihnen.",
+  prompts: ["Was machen Sie beruflich?", "Was gefällt Ihnen an Ihrer Arbeit?", "Was ist nicht so gut?", "Was möchten Sie in Zukunft machen?"],
+  phrases: ["Ich arbeite als … bei …", "Jeden Tag muss ich …", "Mir gefällt, dass …", "Nicht so gut finde ich …", "Später möchte ich gern …"],
+  model: "Ich arbeite als Verkäuferin in einem Elektronikgeschäft. Jeden Tag berate ich Kunden und kontrolliere die Ware. Mir gefällt, dass ich viel mit Menschen spreche. Nicht so gut finde ich, dass ich oft am Samstag arbeiten muss. Später möchte ich gern eine Ausbildung als Kauffrau für Büromanagement machen." },
+{ id: "p-a2-3", level: "A2", part: "Teil 3 · Gemeinsam planen", title: "Ein Teamessen planen", seconds: 120,
+  task: "Sie möchten mit Ihrem Kollegen ein Teamessen organisieren. Finden Sie einen Termin. Hier ist Ihr Kalender für Freitag. Machen Sie Vorschläge und reagieren Sie auf Vorschläge.",
+  prompts: ["8–10 Uhr: Meeting mit dem Chef", "10–12 Uhr: frei", "12–13 Uhr: Mittagspause", "13–15 Uhr: Kundentermin", "ab 16 Uhr: frei"],
+  phrases: ["Wann hast du Zeit?", "Wie wäre es um …?", "Um … kann ich leider nicht, da habe ich …", "Das passt mir gut.", "Wo sollen wir essen?", "Gut, dann machen wir das so."],
+  model: "Wann hast du am Freitag Zeit? Wie wäre es um zwölf in der Mittagspause? – Ach, um zwölf habe ich doch Pause, das passt. Oder lieber nach der Arbeit? Ab sechzehn Uhr bin ich frei. Um zwei kann ich leider nicht, da habe ich einen Kundentermin. Wo sollen wir essen? Vielleicht beim Italiener am Markt? Gut, dann machen wir das so: Freitag um sechzehn Uhr dreißig." },
+{ id: "p-b1-1", level: "B1", part: "Teil 1 · Gemeinsam etwas planen", title: "Abschiedsfeier für eine Kollegin", seconds: 150,
+  task: "Ihre Kollegin Frau Yilmaz geht in Rente. Planen Sie zusammen mit einem Kollegen eine kleine Feier. Sprechen Sie über die Punkte und machen Sie Vorschläge.",
+  prompts: ["Wann und wo feiern?", "Wer wird eingeladen?", "Essen und Getränke", "Geschenk", "Wer übernimmt welche Aufgabe?"],
+  phrases: ["Was hältst du davon, wenn wir …?", "Ich schlage vor, dass …", "Das ist eine gute Idee, aber …", "Ich würde lieber …", "Dann kümmere ich mich um …", "Einverstanden!"],
+  model: "Was hältst du davon, wenn wir die Feier am Freitagnachmittag im Besprechungsraum machen? Dann können alle kommen. Ich schlage vor, dass wir das ganze Team und auch die Kollegen aus der Buchhaltung einladen, weil Frau Yilmaz lange dort gearbeitet hat. Beim Essen würde ich lieber etwas bestellen, zum Beispiel Fingerfood vom Catering. Als Geschenk könnten wir einen Gutschein für ein Wellnesswochenende kaufen. Alle zahlen zehn Euro. Gut, dann kümmere ich mich um das Geld und du bestellst das Essen. Einverstanden?" },
+{ id: "p-b1-2", level: "B1", part: "Teil 2 · Präsentation", title: "Homeoffice – ja oder nein?", seconds: 180,
+  task: "Halten Sie eine kurze Präsentation (etwa 3 Minuten). Folgen Sie den fünf Folien.",
+  prompts: ["Folie 1: Thema vorstellen und Inhalt nennen", "Folie 2: Ihre persönlichen Erfahrungen", "Folie 3: Die Situation in Ihrem Heimatland", "Folie 4: Vor- und Nachteile, Ihre Meinung", "Folie 5: Abschluss und Dank"],
+  phrases: ["Ich möchte heute über das Thema … sprechen.", "Zuerst erzähle ich …, dann …, zum Schluss …", "Ich habe die Erfahrung gemacht, dass …", "In meinem Heimatland ist es so, dass …", "Ein Vorteil ist …, ein Nachteil ist …", "Meiner Meinung nach …", "Vielen Dank für Ihre Aufmerksamkeit."],
+  model: "Ich möchte heute über das Thema Homeoffice sprechen. Zuerst erzähle ich von meinen Erfahrungen, dann von der Situation in Indien, und zum Schluss sage ich meine Meinung. Ich habe zwei Jahre lang teilweise von zu Hause gearbeitet. Ich habe die Erfahrung gemacht, dass ich zu Hause konzentrierter bin, aber manchmal fühle ich mich allein. In Indien ist Homeoffice in der IT-Branche sehr verbreitet, in anderen Branchen kaum. Ein Vorteil ist, dass man keine Zeit für den Arbeitsweg braucht. Ein Nachteil ist, dass man die Kollegen weniger sieht. Meiner Meinung nach ist eine Mischung am besten, zum Beispiel zwei Tage zu Hause und drei Tage im Büro. Vielen Dank für Ihre Aufmerksamkeit." },
+{ id: "p-b1-3", level: "B1", part: "Teil 3 · Über die Präsentation sprechen", title: "Auf Fragen reagieren", seconds: 90,
+  task: "Nach Ihrer Präsentation stellt Ihnen die Prüferin Fragen. Antworten Sie ausführlich.",
+  prompts: ["Wie organisieren Sie Ihren Tag im Homeoffice?", "Was macht Ihr Arbeitgeber, damit das Team in Kontakt bleibt?", "Würden Sie einen Job ohne Homeoffice annehmen?"],
+  phrases: ["Das ist eine gute Frage.", "Normalerweise …", "Bei uns ist es so, dass …", "Das kommt darauf an, …", "Wenn …, dann würde ich …"],
+  model: "Das ist eine gute Frage. Normalerweise fange ich um acht an und mache um zwölf eine richtige Mittagspause, damit ich nicht den ganzen Tag am Schreibtisch sitze. Bei uns ist es so, dass wir jeden Montag ein Teammeeting im Büro haben. Ob ich einen Job ohne Homeoffice annehmen würde? Das kommt darauf an. Wenn die Aufgaben interessant sind und der Weg kurz ist, dann würde ich es machen." },
+{ id: "p-b2-1", level: "B2", part: "Teil 1 · Vortrag", title: "Weiterbildung im Beruf", seconds: 240,
+  task: "Halten Sie einen Vortrag von etwa 4 Minuten. Gehen Sie auf alle Punkte ein.",
+  prompts: ["Beschreiben Sie verschiedene Formen der Weiterbildung.", "Nennen Sie Vor- und Nachteile für Beschäftigte.", "Wie ist die Situation in Ihrem Heimatland?", "Ihre persönliche Meinung mit Begründung"],
+  phrases: ["In meinem Vortrag geht es um …", "Zunächst möchte ich … erläutern.", "Man unterscheidet zwischen … und …", "Für Beschäftigte hat das den Vorteil, dass …", "Kritisch sehe ich allerdings …", "In meinem Heimatland …", "Abschließend möchte ich betonen, dass …"],
+  model: "In meinem Vortrag geht es um Weiterbildung im Beruf. Zunächst möchte ich erläutern, welche Formen es gibt. Man unterscheidet zwischen betrieblichen Schulungen, externen Kursen, zum Beispiel bei der IHK, und Online-Kursen, die man flexibel neben der Arbeit machen kann. Für Beschäftigte hat Weiterbildung den Vorteil, dass sie fachlich auf dem neuesten Stand bleiben und bessere Aufstiegschancen haben. Kritisch sehe ich allerdings, dass viele Kurse in der Freizeit stattfinden und teuer sind. In meinem Heimatland bezahlen Arbeitnehmer Weiterbildungen meist selbst, während in Deutschland viele Arbeitgeber die Kosten übernehmen. Abschließend möchte ich betonen, dass lebenslanges Lernen heute unverzichtbar ist, Unternehmen aber Zeit dafür einplanen sollten." },
+{ id: "p-b2-2", level: "B2", part: "Teil 2 · Diskussion", title: "Pflicht zur Weiterbildung?", seconds: 180,
+  task: "Diskutieren Sie die Frage: „Sollten Arbeitgeber verpflichtet sein, jedem Mitarbeiter fünf Weiterbildungstage pro Jahr zu geben?“ Nennen Sie Argumente, reagieren Sie auf Gegenargumente und versuchen Sie, eine gemeinsame Position zu finden.",
+  prompts: ["Gegenargument: „Für kleine Firmen ist das zu teuer.“", "Gegenargument: „Viele Mitarbeiter nutzen die Tage gar nicht.“", "Gegenargument: „Weiterbildung ist Privatsache.“"],
+  phrases: ["Ich bin davon überzeugt, dass …", "Da muss ich Ihnen widersprechen, denn …", "Ich verstehe Ihren Punkt, aber …", "Das mag sein, trotzdem …", "Könnten wir uns darauf einigen, dass …?"],
+  model: "Ich bin davon überzeugt, dass eine solche Regel sinnvoll ist, denn die Arbeitswelt verändert sich schnell. Ich verstehe Ihren Punkt, dass das für kleine Firmen teuer ist, aber man könnte staatliche Förderung anbieten. Dass viele Mitarbeiter die Tage nicht nutzen, mag sein, trotzdem sollte die Möglichkeit bestehen. Und Weiterbildung ist eben nicht nur Privatsache, denn das Unternehmen profitiert direkt davon. Könnten wir uns darauf einigen, dass es einen Anspruch gibt, kleine Betriebe aber finanziell unterstützt werden?" },
+{ id: "p-c1-1", level: "C1", part: "Teil 1 · Präsentation", title: "Vielfalt am Arbeitsplatz", seconds: 240,
+  task: "Halten Sie eine strukturierte Präsentation (3–4 Minuten) zum Thema „Diversität in Unternehmen: Chance oder Herausforderung?“",
+  prompts: ["Begriff klären und Relevanz zeigen", "Chancen für Unternehmen anhand von Beispielen", "Herausforderungen und mögliche Konflikte", "Maßnahmen, die wirklich wirken", "Begründetes Fazit"],
+  phrases: ["Lassen Sie mich zunächst klären, was unter … zu verstehen ist.", "Dass dieses Thema an Bedeutung gewinnt, zeigt sich unter anderem daran, dass …", "Ein anschauliches Beispiel dafür ist …", "Nicht verschweigen sollte man jedoch, dass …", "Entscheidend ist meines Erachtens …", "Zusammenfassend lässt sich festhalten, dass …"],
+  model: "Lassen Sie mich zunächst klären, was unter Diversität zu verstehen ist: die Vielfalt von Menschen hinsichtlich Herkunft, Geschlecht, Alter, Behinderung oder Lebensentwurf. Dass dieses Thema an Bedeutung gewinnt, zeigt sich unter anderem daran, dass inzwischen fast jede größere Firma eine Diversity-Strategie veröffentlicht. Für Unternehmen liegen die Chancen auf der Hand: Gemischte Teams berücksichtigen unterschiedliche Perspektiven und treffen nachweislich oft bessere Entscheidungen. Ein anschauliches Beispiel dafür ist die Produktentwicklung, bei der vielfältige Teams Bedürfnisse unterschiedlicher Kundengruppen früher erkennen. Nicht verschweigen sollte man jedoch, dass Vielfalt auch zu Missverständnissen führen kann, etwa durch unterschiedliche Kommunikationsstile. Entscheidend ist meines Erachtens, dass Diversität nicht nur auf dem Papier existiert, sondern sich in Führungspositionen und in fairen Beförderungsprozessen widerspiegelt. Zusammenfassend lässt sich festhalten, dass Vielfalt kein Selbstläufer ist, aber eine erhebliche Chance darstellt, wenn sie bewusst gestaltet wird." },
+{ id: "p-c1-2", level: "C1", part: "Teil 2 · Diskussion", title: "Gehaltstransparenz", seconds: 180,
+  task: "Diskutieren Sie: „Sollten alle Gehälter in einem Unternehmen offengelegt werden?“ Vertreten Sie Ihre Position, gehen Sie differenziert auf Gegenargumente ein und arbeiten Sie auf einen Kompromiss hin.",
+  prompts: ["Gegenargument: „Das führt nur zu Neid im Team.“", "Gegenargument: „Gehalt ist Privatsache.“", "Gegenargument: „Leistung lässt sich nicht in Zahlen vergleichen.“"],
+  phrases: ["Ich vertrete die Auffassung, dass …", "Diesen Einwand halte ich für berechtigt, allerdings …", "Man darf dabei nicht außer Acht lassen, dass …", "Ich gebe Ihnen insofern recht, als …", "Ein denkbarer Mittelweg wäre …"],
+  model: "Ich vertrete die Auffassung, dass Gehaltstransparenz grundsätzlich mehr Gerechtigkeit schafft, vor allem weil sie unerklärbare Unterschiede zwischen Männern und Frauen sichtbar macht. Den Einwand, dass dies Neid erzeugt, halte ich für berechtigt, allerdings entsteht Misstrauen gerade dann, wenn niemand weiß, wie Gehälter zustande kommen. Ich gebe Ihnen insofern recht, als individuelle Gehälter durchaus persönliche Informationen sind. Man darf dabei aber nicht außer Acht lassen, dass Arbeitnehmer bereits heute ein gesetzliches Auskunftsrecht haben. Ein denkbarer Mittelweg wäre daher, nicht jedes einzelne Gehalt, sondern transparente Gehaltsbänder und Kriterien für Gehaltserhöhungen offenzulegen." }
+],
+
+/* ================================================================ VORSTELLUNGSGESPRÄCH */
+interview: [
+{ id: "i1", q: "Erzählen Sie uns bitte etwas über sich.", en: "Tell us about yourself.", tip: "1–2 minutes: current role, one key achievement, why you're here. Don't recite your whole CV.",
+  model: "Gern. Ich habe Wirtschaftsinformatik studiert und arbeite seit drei Jahren als Datenanalystin. Zurzeit mache ich meinen Master an der RWTH Aachen. In meinem letzten Projekt habe ich ein Dashboard entwickelt, mit dem unser Vertrieb seine Zahlen täglich sehen kann. Jetzt suche ich eine Stelle, in der ich Daten und Projektarbeit verbinden kann.",
+  adv: "Sehr gern. Ich bin Datenanalystin mit gut drei Jahren Berufserfahrung und absolviere derzeit meinen Master im Bereich Digitalisierung an der RWTH. Was mich auszeichnet, ist die Fähigkeit, komplexe Daten so aufzubereiten, dass Fachabteilungen damit Entscheidungen treffen können – zuletzt etwa mit einem Vertriebsdashboard, das die wöchentliche Berichtszeit von mehreren Stunden auf wenige Minuten reduziert hat. Ihre Stelle reizt mich, weil sie genau diese Schnittstelle zwischen Analyse und Projektsteuerung abdeckt." },
+{ id: "i2", q: "Warum haben Sie sich bei uns beworben?", en: "Why did you apply to us?", tip: "Name something specific about the company, then link it to your skills.",
+  model: "Ich habe mich bei Ihnen beworben, weil Ihr Unternehmen in der Digitalisierung sehr aktiv ist. Mir gefällt, dass Sie viel in Weiterbildung investieren. Außerdem passen die Aufgaben gut zu meiner Erfahrung.",
+  adv: "Mich hat vor allem überzeugt, dass Sie Digitalisierung nicht als Selbstzweck verstehen, sondern konsequent am Kundennutzen ausrichten – das habe ich auch in Ihrem aktuellen Nachhaltigkeitsbericht gesehen. Genau dort sehe ich meinen Beitrag: Daten so nutzbar zu machen, dass sie im Alltag tatsächlich einen Unterschied machen." },
+{ id: "i3", q: "Was sind Ihre Stärken?", en: "What are your strengths?", tip: "Two strengths, each with a short real example.",
+  model: "Eine Stärke ist, dass ich sehr strukturiert arbeite. Zum Beispiel plane ich jede Woche meine Aufgaben genau. Außerdem kann ich gut im Team arbeiten und erkläre Kollegen gern neue Programme.",
+  adv: "Zu meinen Stärken zähle ich ein ausgeprägtes analytisches Denken, gepaart mit der Fähigkeit, Ergebnisse verständlich zu kommunizieren. In meinem letzten Projekt etwa konnte ich der Geschäftsführung anhand weniger Kennzahlen zeigen, warum sich eine Investition nicht rechnet – die Entscheidung wurde daraufhin revidiert." },
+{ id: "i4", q: "Und was sind Ihre Schwächen?", en: "What are your weaknesses?", tip: "A real but not critical weakness, plus what you're doing about it.",
+  model: "Manchmal fällt es mir schwer, Aufgaben abzugeben. Ich möchte alles selbst machen. Jetzt versuche ich, im Team früher um Hilfe zu bitten, und das klappt schon besser.",
+  adv: "Ich neige dazu, mich zu lange mit Details aufzuhalten, wenn ein Ergebnis eigentlich schon gut genug wäre. Inzwischen setze ich mir für jede Aufgabe bewusst ein Zeitlimit und kläre vorab mit den Beteiligten, welche Genauigkeit wirklich nötig ist." },
+{ id: "i5", q: "Warum möchten Sie Ihre jetzige Stelle verlassen?", en: "Why do you want to leave your current job?", tip: "Stay positive: look forward, never criticise your current employer.",
+  model: "Ich habe in meiner Firma viel gelernt. Aber ich möchte mich weiterentwickeln und mehr Verantwortung übernehmen. Diese Möglichkeit sehe ich bei Ihnen.",
+  adv: "Ich habe in meiner jetzigen Position sehr viel gelernt und schätze mein Team. Allerdings sind die Entwicklungsmöglichkeiten dort strukturell begrenzt, und ich möchte den nächsten Schritt hin zu mehr Projektverantwortung gehen." },
+{ id: "i6", q: "Wo sehen Sie sich in fünf Jahren?", en: "Where do you see yourself in five years?", tip: "Ambitious but connected to this company.",
+  model: "In fünf Jahren möchte ich Expertin in meinem Bereich sein. Vielleicht leite ich dann kleine Projekte. Ich möchte auch mein Deutsch weiter verbessern.",
+  adv: "Ich sehe mich in fünf Jahren als jemanden, der fachlich als Ansprechpartnerin für datengetriebene Projekte gilt und idealerweise ein kleines Team fachlich führt – gern hier, wenn sich die Zusammenarbeit so entwickelt, wie ich es mir vorstelle." },
+{ id: "i7", q: "Wie gehen Sie mit Stress um?", en: "How do you handle stress?", tip: "Concrete method plus a short example.",
+  model: "Wenn ich viel Stress habe, mache ich eine Liste und fange mit den wichtigsten Aufgaben an. Ich spreche auch früh mit meinem Chef, wenn ein Termin zu knapp ist. Nach der Arbeit gehe ich joggen.",
+  adv: "Unter Druck priorisiere ich konsequent und kommuniziere früh, wenn Fristen gefährdet sind. Vor dem letzten Quartalsabschluss etwa habe ich mit meinem Vorgesetzten zwei nachrangige Aufgaben verschoben, sodass wir die wichtigste Abgabe pünktlich schaffen konnten." },
+{ id: "i8", q: "Erzählen Sie von einem Konflikt im Team und wie Sie ihn gelöst haben.", en: "Tell us about a team conflict and how you solved it.", tip: "Use STAR: Situation, Task, Action, Result.",
+  model: "In einem Projekt waren zwei Kollegen nicht einverstanden, wer welche Aufgabe macht. Ich habe ein kurzes Meeting organisiert. Wir haben die Aufgaben neu verteilt und einen klaren Plan gemacht. Danach lief die Zusammenarbeit viel besser.",
+  adv: "In einem Projekt gab es Spannungen zwischen Entwicklung und Vertrieb, weil Anforderungen ständig geändert wurden. Ich habe vorgeschlagen, einmal pro Woche ein kurzes gemeinsames Abstimmungstreffen einzuführen und Änderungen nur noch über ein zentrales Dokument anzunehmen. Innerhalb eines Monats sank die Zahl kurzfristiger Änderungen deutlich, und die Stimmung im Team hat sich spürbar verbessert." },
+{ id: "i9", q: "Was wissen Sie über unser Unternehmen?", en: "What do you know about our company?", tip: "Two facts (products, size, a recent news item) and why they interest you.",
+  model: "Ihr Unternehmen ist ein großer Logistikanbieter mit Standorten in ganz Europa. Ich habe gelesen, dass Sie gerade ein neues Lager in Aachen eröffnen. Das finde ich spannend.",
+  adv: "Sie gehören zu den führenden Logistikanbietern in der Region und haben zuletzt stark in die Automatisierung Ihrer Lager investiert. Besonders interessant finde ich Ihr Pilotprojekt zur emissionsfreien Zustellung, über das ich in der Fachpresse gelesen habe." },
+{ id: "i10", q: "Welche Gehaltsvorstellung haben Sie?", en: "What are your salary expectations?", tip: "Give a researched yearly gross figure or a small range.",
+  model: "Ich habe mich informiert. Meine Gehaltsvorstellung liegt bei ungefähr 48.000 Euro brutto im Jahr.",
+  adv: "Auf Basis meiner Erfahrung und vergleichbarer Positionen in der Region liegt meine Gehaltsvorstellung bei 52.000 bis 55.000 Euro brutto jährlich. Natürlich spielen für mich auch Faktoren wie Weiterbildungsmöglichkeiten und flexible Arbeitszeiten eine Rolle." },
+{ id: "i11", q: "Wann könnten Sie bei uns anfangen?", en: "When could you start?", tip: "Mention your notice period (Kündigungsfrist).",
+  model: "Ich habe eine Kündigungsfrist von einem Monat. Ich könnte also am ersten Dezember anfangen.",
+  adv: "Meine Kündigungsfrist beträgt vier Wochen zum Monatsende, sodass ich frühestens zum 1. Dezember zur Verfügung stünde. Falls es für Sie wichtig ist, kläre ich gern, ob ein früherer Wechsel möglich ist." },
+{ id: "i12", q: "Wie gut ist Ihr Deutsch?", en: "How good is your German?", tip: "Be honest about your level and show you are improving.",
+  model: "Ich habe das Niveau B1 und lerne jeden Tag weiter. Im Alltag und bei der Arbeit kann ich gut kommunizieren. Bei Fachbegriffen frage ich manchmal nach, aber ich lerne schnell.",
+  adv: "Ich habe vor Kurzem das Goethe-Zertifikat B2 abgelegt und bereite mich gerade auf C1 vor. Im Arbeitsalltag kommuniziere ich sicher, schreibe auch längere E-Mails auf Deutsch und habe mir das Fachvokabular in meinem Bereich gezielt erarbeitet." },
+{ id: "i13", q: "Arbeiten Sie lieber allein oder im Team?", en: "Do you prefer working alone or in a team?", tip: "Show you can do both, with an example.",
+  model: "Ich arbeite gern im Team, weil man viel voneinander lernt. Aber ich kann auch allein konzentriert arbeiten, zum Beispiel wenn ich Daten analysiere.",
+  adv: "Ich schätze beides und halte die Kombination für entscheidend: Analysen erarbeite ich gern konzentriert allein, die Interpretation und die Lösungen entwickle ich aber am liebsten gemeinsam mit dem Fachbereich, weil dabei oft die besten Ideen entstehen." },
+{ id: "i14", q: "Haben Sie noch Fragen an uns?", en: "Do you have any questions for us?", tip: "Always ask 1–2 questions. Never say no.",
+  model: "Ja, gern. Wie sieht die Einarbeitung in den ersten Wochen aus? Und wie groß ist das Team?",
+  adv: "Ja, zwei Fragen hätte ich: Wie sieht die Einarbeitung in den ersten Monaten konkret aus? Und welche Ziele hat sich das Team für das kommende Jahr gesetzt?" }
+]
+};
