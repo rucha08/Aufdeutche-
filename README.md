@@ -15,9 +15,9 @@ After each set, a **quick check** (English → you say the German). Words you mi
 
 You can set your daily goal to 20, 40, 60 or 100 new words. Days 1–3 (300 A1 words) are included; new days are added in `days.js`.
 
-## More practice
+## Progress
 
-**Mehr üben** has listening, reading, writing and speaking exercises (A1–C1, locked above your level), a job-interview trainer from A2, and a word list by topic. **Fortschritt** tracks days completed, words learned, words you said correctly, new words per day and speaking minutes.
+**Fortschritt** tracks days completed, words learned, words you said correctly, words to review, new words per day and speaking minutes, with backup and restore.
 
 Each person's progress is saved in their own browser, so friends can share one link and still have separate progress.
 

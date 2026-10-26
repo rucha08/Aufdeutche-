@@ -130,7 +130,7 @@
   function streak() { var n = 0, i = S.act[day()] ? 0 : -1; while (S.act[day(i)]) { n++; i--; } return n; }
 
   /* ---------- routing ---------- */
-  var routes = { today: viewHome, drill: viewDaily, review: viewDReview, more: viewMore, hoeren: viewSkill, lesen: viewSkill, schreiben: viewSkill, sprechen: viewSkill, words: viewWords, progress: viewProgress, settings: viewSettings, test: viewTest };
+  var routes = { today: viewHome, drill: viewDaily, review: viewDReview, progress: viewProgress, settings: viewSettings, test: viewTest };
   function route() {
     Speech.stop(); Speech.hush(); $view.onclick = null; cleanupKeys();
     if (!S.profile) return viewSetup();
@@ -139,7 +139,7 @@
     document.getElementById("hello").textContent = "Hallo, " + S.profile.name + "! · Level " + lvl();
     var navName = { drill: "today", hoeren: "more", lesen: "more", schreiben: "more", sprechen: "more", words: "more", test: "progress" }[name] || name;
     document.querySelectorAll("#tabs .tab").forEach(function (a) { a.setAttribute("aria-current", a.getAttribute("href") === "#/" + navName ? "page" : "false"); });
-    (routes[name] || viewToday)(name);
+    (routes[name] || viewHome)(name);
     window.scrollTo(0, 0);
   }
   window.addEventListener("hashchange", route);
@@ -650,27 +650,13 @@
 
   /* ---------- progress ---------- */
   function viewProgress() {
-    var all = words(), known = 0, learning = 0, totalSpeak = 0;
-    all.forEach(function (w) { var s = card(w.key).status; if (s === "review") known++; else if (s === "learning") learning++; });
+    var totalSpeak = 0;
     Object.keys(S.act).forEach(function (d) { totalSpeak += S.act[d].speak || 0; });
     var days = []; for (var i = -29; i <= 0; i++) days.push(day(i));
     var max = Math.max(60, Math.max.apply(null, days.map(function (d) { return (S.act[d] || {}).speak || 0; })));
-    var table = '<div class="tablewrap"><table><thead><tr><th></th>' + LV.map(function (l) { return "<th>" + l + "</th>"; }).join("") + "</tr></thead><tbody>" +
-      Object.keys(SKILLS).map(function (k) {
-        return "<tr><td>" + SKILLS[k].icon + " " + SKILLS[k].de + "</td>" + LV.map(function (l) {
-          var xs = SKILLS[k].data.filter(function (x) { return x.level === l; }), done = xs.filter(function (x) { return exRec(x.id); }), sc = done.map(function (x) { return exRec(x.id).best; }).filter(function (v) { return v != null; });
-          var avg = sc.length ? Math.round(sc.reduce(function (a, b) { return a + b; }, 0) / sc.length) : null;
-          if (!unlocked(l)) return '<td class="small muted">🔒</td>';
-          return '<td class="mono small">' + done.length + "/" + xs.length + (avg != null ? "<br>" + avg + "%" : "") + "</td>";
-        }).join("") + "</tr>";
-      }).join("") + "</tbody></table></div>";
-    var intDone = EX.interview.filter(function (q) { return S.ex["int-" + q.id]; }).length;
     var daysDone = DAYS.filter(function (dd) { return dayComplete(dd.day); }).length;
     $view.innerHTML = '<div class="grid">' + stat("Days completed", daysDone + '<small class="muted"> / ' + DAYS.length + "</small>") + stat("Words learned", learnedTotal(), '<span class="small muted">' + spokenWell() + " said correctly</span>") + stat("To review", dueCards().length) + "</div>" +
-      '<div class="grid">' + stat("Streak", streak() + '<small class="muted"> days</small>') + stat("Practice words known", known, '<span class="small muted">' + learning + " still learning</span>") +
-      stat("Speaking total", mins(totalSpeak) + '<small class="muted"> min</small>') + stat("Interview questions", intDone + '<small class="muted"> / ' + EX.interview.length + "</small>") + "</div>" +
-      '<div class="card"><h3>Your level: ' + lvl() + "</h3><p class=\"small muted\">" + (nextLevel() ? "Pass the level-up test (6 questions, 4 correct needed) to unlock " + nextLevel() + "." : "You've reached the highest level in the app.") + '</p><div class="row">' + (nextLevel() ? link("#/test/up", "Level-up test (" + nextLevel() + ")") : "") + link("#/test/place", "Retake the full level test", "ghost") + "</div></div>" +
-      '<div class="card"><h3>Exercises done by skill and level</h3><p class="small muted">Done / available, and your average best score.</p>' + table + "</div>" +
+      '<div class="grid">' + stat("Streak", streak() + '<small class="muted"> days</small>') + stat("Speaking total", mins(totalSpeak) + '<small class="muted"> min</small>') + "</div>" +
       '<div class="card"><h3>New words learned, last 30 days</h3><div class="bars">' + (function () { var mx = Math.max(5, Math.max.apply(null, days.map(function (d) { return (S.act[d] || {}).newWords || 0; }))); return days.map(function (d) { var n = (S.act[d] || {}).newWords || 0; return '<i class="' + (n ? "gold" : "zero") + '" style="height:' + Math.max(2, n / mx * 100) + '%" title="' + d + ": " + n + ' words"></i>'; }).join(""); })() + '</div><p class="small muted">' + days.reduce(function (t, d) { return t + ((S.act[d] || {}).newWords || 0); }, 0) + " new words in the last 30 days.</p></div>" +
       '<div class="card"><h3>Speaking minutes, last 30 days</h3><div class="bars">' + days.map(function (d) { var s = (S.act[d] || {}).speak || 0; return '<i class="' + (s ? "" : "zero") + '" style="height:' + Math.max(2, s / max * 100) + '%" title="' + d + ": " + mins(s) + ' min"></i>'; }).join("") + '</div><p class="small muted">Counted while the microphone is on.</p></div>' +
       '<div class="card"><h3>Backup</h3><p class="small muted">Progress lives only in this browser. Download a backup now and then, and load it to move to another device.</p>' +
@@ -716,7 +702,7 @@
       stat("Words learned", learnedTotal(), '<span class="small muted">' + spokenWell() + " said correctly</span>") + "</div>";
     var review = due ? '<div class="card note-card"><div class="row between"><p><b>' + due + " words to review</b>. Do these first: it takes a few minutes and keeps them in your head.</p>" + link("#/review", "Review now") + "</div></div>" : "";
     if (!d) {
-      $view.innerHTML = stats + review + '<div class="card"><h2>🎉 You\'ve finished all ' + DAYS.length + " days!</h2><p>That's " + learnedTotal() + " words. New days are added regularly. Until then, review and use the words in <a href=\"#/more\">Mehr üben</a>.</p></div>";
+      $view.innerHTML = stats + review + '<div class="card"><h2>🎉 You\'ve finished all ' + DAYS.length + " days!</h2><p>That's " + learnedTotal() + " words. New days are added regularly. Until then, keep reviewing in <a href=\"#/review\">Wiederholen</a>.</p></div>";
       return;
     }
     var day0 = DAYS[d - 1], done = dayDoneList(d).length, n = day0.words.length, sets = Math.ceil(n / SET), next = -1;
