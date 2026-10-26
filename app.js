@@ -130,14 +130,15 @@
   function streak() { var n = 0, i = S.act[day()] ? 0 : -1; while (S.act[day(i)]) { n++; i--; } return n; }
 
   /* ---------- routing ---------- */
-  var routes = { today: viewToday, hoeren: viewSkill, lesen: viewSkill, schreiben: viewSkill, sprechen: viewSkill, words: viewWords, progress: viewProgress, settings: viewSettings, test: viewTest };
+  var routes = { today: viewHome, drill: viewDaily, review: viewDReview, more: viewMore, hoeren: viewSkill, lesen: viewSkill, schreiben: viewSkill, sprechen: viewSkill, words: viewWords, progress: viewProgress, settings: viewSettings, test: viewTest };
   function route() {
-    Speech.stop(); Speech.hush(); $view.onclick = null;
+    Speech.stop(); Speech.hush(); $view.onclick = null; cleanupKeys();
     if (!S.profile) return viewSetup();
     var name = location.hash.replace(/^#\/?/, "").split(/[/?]/)[0] || "today";
     document.getElementById("tabs").hidden = false;
     document.getElementById("hello").textContent = "Hallo, " + S.profile.name + "! · Level " + lvl();
-    document.querySelectorAll("#tabs .tab").forEach(function (a) { a.setAttribute("aria-current", a.getAttribute("href") === "#/" + name ? "page" : "false"); });
+    var navName = { drill: "today", hoeren: "more", lesen: "more", schreiben: "more", sprechen: "more", words: "more", test: "progress" }[name] || name;
+    document.querySelectorAll("#tabs .tab").forEach(function (a) { a.setAttribute("aria-current", a.getAttribute("href") === "#/" + navName ? "page" : "false"); });
     (routes[name] || viewToday)(name);
     window.scrollTo(0, 0);
   }
@@ -151,28 +152,35 @@
       return '<form id="pf" class="composer">' +
         '<div class="field"><label for="pName">What\'s your first name?</label><input type="text" id="pName" required maxlength="40" autocomplete="given-name"></div>' +
         '<div class="field"><span class="lbl">How much German do you speak?</span>' + levelCards + "</div>" +
+        goalChips(100) +
         '<p class="err" id="pErr"></p><div class="row"><button class="cta" type="submit">Los geht\'s! →</button><button class="ghost" type="button" id="quick">Not sure? Quick 3-minute check</button></div></form>';
     }
     return '<form id="pf" class="composer">' +
       '<div class="field"><label for="pName">Your first name</label><input type="text" id="pName" required maxlength="40" value="' + esc(p.name) + '"></div>' +
       '<div class="field"><span class="lbl">Your level</span>' + levelCards +
       '<div class="row" style="margin-top:6px">' + link("#/test/place", "Quick level check", "ghost") + (nextLevel() ? link("#/test/up", "Level-up test (" + nextLevel() + ")", "ghost") : "") + "</div></div>" +
+      goalChips(p.daily || 100) +
       '<div class="field"><span class="lbl">What do you want to use German for most?</span><div class="chips" id="fcPick">' +
       '<button type="button" class="chip" data-fc="job" aria-pressed="' + (p.focus !== "everyday") + '">Work &amp; job interviews</button>' +
       '<button type="button" class="chip" data-fc="everyday" aria-pressed="' + (p.focus === "everyday") + '">Everyday life</button></div></div>' +
       '<div class="field"><label for="pMin">Minutes per day</label><select id="pMin">' + [10, 15, 20, 30, 45, 60].map(function (m) { return "<option" + (m === p.minutes ? " selected" : "") + ">" + m + "</option>"; }).join("") + "</select></div>" +
       '<p class="note" id="pv"></p><div class="row"><button class="cta" type="submit">Save</button></div></form>';
   }
+  function goalChips(cur) {
+    return '<div class="field"><span class="lbl">New words per day</span><div class="chips" id="dgPick">' + [20, 40, 60, 100].map(function (n) { return '<button type="button" class="chip" data-dg="' + n + '" aria-pressed="' + (n === cur) + '">' + n + (n === 100 ? " 🔥" : "") + "</button>"; }).join("") +
+      '</div><p class="small muted">Each set of 20 words takes about 20 minutes. 100 a day is intense, about 1.5–2 hours.</p></div>';
+  }
   function wireProfile(done) {
     var old = S.profile || {}, lv = old.level || "", fc = old.focus || "job";
     function pick(boxId, attr, set) { var box = document.getElementById(boxId); if (!box) return; box.onclick = function (e) { var b = e.target.closest("[" + attr + "]"); if (!b) return; set(b.getAttribute(attr)); this.querySelectorAll("[" + attr + "]").forEach(function (x) { x.setAttribute("aria-pressed", x === b); }); }; }
     pick("lvPick", "data-lv", function (v) { lv = v; var e = document.getElementById("pErr"); if (e) e.textContent = ""; });
     pick("fcPick", "data-fc", function (v) { fc = v; });
+    var dg = old.daily || 100; pick("dgPick", "data-dg", function (v) { dg = +v; });
     var pm = document.getElementById("pMin");
     function pv() { var m = +pm.value; document.getElementById("pv").innerHTML = "Every day: <b>" + Math.max(3, Math.min(25, Math.round(m * 0.32))) + " new words</b>, a little speaking, listening, reading and writing, about " + m + " minutes."; }
     if (pm) { pm.onchange = pv; pv(); }
     function store(level) {
-      S.profile = { name: val("pName").trim() || "du", level: level, minutes: pm ? +pm.value : (old.minutes || 30), focus: fc, tested: old.tested };
+      S.profile = { name: val("pName").trim() || "du", level: level, minutes: pm ? +pm.value : (old.minutes || 30), focus: fc, tested: old.tested, daily: dg };
       WORDS_CACHE = null; save();
     }
     document.getElementById("pf").onsubmit = function (e) {
@@ -657,7 +665,9 @@
         }).join("") + "</tr>";
       }).join("") + "</tbody></table></div>";
     var intDone = EX.interview.filter(function (q) { return S.ex["int-" + q.id]; }).length;
-    $view.innerHTML = '<div class="grid">' + stat("Streak", streak() + '<small class="muted"> days</small>') + stat("Words known", known, '<span class="small muted">' + learning + " still learning</span>") +
+    var daysDone = DAYS.filter(function (dd) { return dayComplete(dd.day); }).length;
+    $view.innerHTML = '<div class="grid">' + stat("Days completed", daysDone + '<small class="muted"> / ' + DAYS.length + "</small>") + stat("Words learned", learnedTotal(), '<span class="small muted">' + spokenWell() + " said correctly</span>") + stat("To review", dueCards().length) + "</div>" +
+      '<div class="grid">' + stat("Streak", streak() + '<small class="muted"> days</small>') + stat("Practice words known", known, '<span class="small muted">' + learning + " still learning</span>") +
       stat("Speaking total", mins(totalSpeak) + '<small class="muted"> min</small>') + stat("Interview questions", intDone + '<small class="muted"> / ' + EX.interview.length + "</small>") + "</div>" +
       '<div class="card"><h3>Your level: ' + lvl() + "</h3><p class=\"small muted\">" + (nextLevel() ? "Pass the level-up test (6 questions, 4 correct needed) to unlock " + nextLevel() + "." : "You've reached the highest level in the app.") + '</p><div class="row">' + (nextLevel() ? link("#/test/up", "Level-up test (" + nextLevel() + ")") : "") + link("#/test/place", "Retake the full level test", "ghost") + "</div></div>" +
       '<div class="card"><h3>Exercises done by skill and level</h3><p class="small muted">Done / available, and your average best score.</p>' + table + "</div>" +
@@ -674,6 +684,210 @@
       f.text().then(function (t) { var s = JSON.parse(t); if (!s || s.v !== 1 || !s.profile) throw new Error(); S = Object.assign(fresh(), s); WORDS_CACHE = null; save(); toast("Backup loaded."); route(); })
         .catch(function () { toast("That file isn't an Auf Deutsch backup."); });
     };
+  }
+
+  /* ---------- the daily 100: learn → say → remember ---------- */
+  var DAYS = window.AD_DAYS || [], SET = 20;
+  function dState() { S.drill = S.drill || { done: {}, cards: {}, said: {} }; return S.drill; }
+  function dKey(d, i) { return "d" + d + ":" + i; }
+  function dWord(d, i) { var w = DAYS[d - 1].words[i]; return { d: d, i: i, key: dKey(d, i), de: w[0], article: w[1], plural: w[2], en: w[3], ex: w[4], exEn: w[5], note: w[6] }; }
+  function fullWord(w) { return (w.article && w.article.indexOf("/") < 0 ? w.article + " " : "") + w.de; }
+  function dayDoneList(d) { return dState().done[d] || []; }
+  function dayComplete(d) { return dayDoneList(d).length >= DAYS[d - 1].words.length; }
+  function currentDay() { for (var k = 0; k < DAYS.length; k++) if (!dayComplete(DAYS[k].day)) return DAYS[k].day; return null; }
+  function setRange(d, s) { var n = DAYS[d - 1].words.length, a = s * SET; return [a, Math.min(n, a + SET)]; }
+  function setDone(d, s) { var r = setRange(d, s), done = dayDoneList(d); for (var k = r[0]; k < r[1]; k++) if (done.indexOf(k) < 0) return false; return true; }
+  function dailyGoal() { return (S.profile && S.profile.daily) || 100; }
+  function dNewToday() { return (S.act[day()] || {}).newWords || 0; }
+  function learnedTotal() { var st = dState(), n = 0; Object.keys(st.done).forEach(function (d) { n += st.done[d].length; }); return n; }
+  function spokenWell() { var st = dState(); return Object.keys(st.said).filter(function (k) { return st.said[k] >= 70; }).length; }
+  function dueCards() { var st = dState(), t = day(); return Object.keys(st.cards).filter(function (k) { var c = st.cards[k]; return c.due && c.due <= t; }); }
+  function markSeen(w, grade) {
+    var st = dState(), list = st.done[w.d] = st.done[w.d] || [];
+    if (list.indexOf(w.i) < 0) { list.push(w.i); act("newWords", 1); }
+    var c = st.cards[w.key] || { status: "new", ease: 2.5, interval: 0, reps: 0, lapses: 0 };
+    st.cards[w.key] = schedule(c, grade); save();
+  }
+
+  function viewHome() {
+    var d = currentDay(), a = S.act[day()] || {}, due = dueCards().length;
+    var stats = '<div class="grid">' + stat("Streak", streak() + '<small class="muted"> days</small>') +
+      stat("New words today", dNewToday() + '<small class="muted"> / ' + dailyGoal() + "</small>", '<div class="bar"><i style="width:' + Math.min(100, dNewToday() / dailyGoal() * 100) + '%"></i></div>') +
+      stat("Words learned", learnedTotal(), '<span class="small muted">' + spokenWell() + " said correctly</span>") + "</div>";
+    var review = due ? '<div class="card note-card"><div class="row between"><p><b>' + due + " words to review</b>. Do these first: it takes a few minutes and keeps them in your head.</p>" + link("#/review", "Review now") + "</div></div>" : "";
+    if (!d) {
+      $view.innerHTML = stats + review + '<div class="card"><h2>🎉 You\'ve finished all ' + DAYS.length + " days!</h2><p>That's " + learnedTotal() + " words. New days are added regularly. Until then, review and use the words in <a href=\"#/more\">Mehr üben</a>.</p></div>";
+      return;
+    }
+    var day0 = DAYS[d - 1], done = dayDoneList(d).length, n = day0.words.length, sets = Math.ceil(n / SET), next = -1;
+    for (var s = 0; s < sets; s++) if (!setDone(d, s)) { next = s; break; }
+    var setBtns = "";
+    for (s = 0; s < sets; s++) {
+      var r = setRange(d, s), sd = setDone(d, s), cnt = dayDoneList(d).filter(function (k) { return k >= r[0] && k < r[1]; }).length;
+      setBtns += '<a class="setbtn' + (sd ? " done" : s === next ? " next" : "") + '" href="#/drill/' + d + "/" + s + '"><b>Set ' + (s + 1) + '</b><span class="small">' + (sd ? "✓ done" : cnt ? cnt + " / " + (r[1] - r[0]) : "Words " + (r[0] + 1) + "–" + r[1]) + "</span></a>";
+    }
+    var goalHit = dNewToday() >= dailyGoal();
+    $view.innerHTML = stats + review +
+      '<div class="card"><div class="row between"><div><p class="eyebrow">Tag ' + d + " · " + day0.level + '</p><h2>' + esc(day0.theme) + '</h2></div><span class="mono small">' + done + " / " + n + "</span></div>" +
+      '<div class="bar"><i style="width:' + Math.round(done / n * 100) + '%"></i></div>' +
+      (goalHit ? '<p class="note">✅ Today\'s goal of ' + dailyGoal() + " new words is done. Toll! You can keep going, or stop and review tomorrow.</p>" : "") +
+      '<div class="sets">' + setBtns + "</div>" +
+      (next >= 0 ? '<div class="row">' + link("#/drill/" + d + "/" + next, done ? "Continue with set " + (next + 1) + " →" : "Start set 1 →") + '<span class="small muted">About 20 minutes per set. Do them across the day.</span></div>' : "") + "</div>" +
+      '<details class="card grammar"' + (done === 0 ? " open" : "") + '><summary><b>📘 Grammar of the day:</b> ' + esc(day0.grammar.title) + "</summary><ul>" + day0.grammar.points.map(function (p) { return "<li>" + p + "</li>"; }).join("") + "</ul></details>" +
+      '<div class="card"><p class="eyebrow">How it works</p><ol class="small"><li><b>Hear</b> the word and a sentence with it.</li><li><b>Read</b> the grammar tip.</li><li><b>Say</b> the sentence out loud; the mic checks you.</li><li>After 20 words, a <b>quick check</b>: English → you say the German.</li></ol><p class="small muted">Already know a word? Tap <b>Kenne ich</b> to skip it. Words you miss come back in <a href="#/review">Wiederholen</a>.</p></div>';
+  }
+
+  var DR = null;
+  function viewDaily() {
+    var p = location.hash.split("/"), d = +p[2], s = +p[3];
+    if (!DAYS[d - 1] || isNaN(s)) { location.hash = "#/today"; return; }
+    var r = setRange(d, s);
+    if (!DR || DR.d !== d || DR.s !== s) {
+      var idx = []; for (var k = r[0]; k < r[1]; k++) idx.push(k);
+      var undone = idx.filter(function (k) { return dayDoneList(d).indexOf(k) < 0; });
+      DR = { d: d, s: s, all: idx, list: undone.length ? undone : idx, pos: 0, check: null, auto: pref("ad_auto", false) };
+    }
+    if (DR.check) return renderCheck();
+    if (DR.pos >= DR.list.length) return startCheck();
+    renderLearn();
+  }
+  function pref(k, def) { try { var v = localStorage.getItem(k); return v === null ? def : v === "1"; } catch (e) { return def; } }
+  function setPref(k, v) { try { localStorage.setItem(k, v ? "1" : "0"); } catch (e) {} }
+  function renderLearn() {
+    var w = dWord(DR.d, DR.list[DR.pos]), best = dState().said[w.key];
+    $view.innerHTML = '<div class="card drill">' +
+      '<div class="row between"><p class="eyebrow">Tag ' + DR.d + " · Set " + (DR.s + 1) + '</p><span class="mono small">' + (DR.pos + 1) + " / " + DR.list.length + "</span></div>" +
+      '<div class="bar"><i style="width:' + Math.round(DR.pos / DR.list.length * 100) + '%"></i></div>' +
+      '<div class="dword"><p class="big">' + art(w.article) + esc(w.de) + " " + sayBtn(fullWord(w)) + "</p>" + (w.plural && w.plural !== "(Sg.)" && w.plural !== "(Pl.)" ? '<p class="small muted">Plural: ' + esc(w.plural) + "</p>" : "") + '<p class="den">' + esc(w.en) + "</p></div>" +
+      '<div class="dsent"><p class="bde">' + highlight(w.ex, w.de) + "</p>" + '<div class="row">' + sayBtn(w.ex, "🔊 Sentence") + slowBtn(w.ex) + '</div><p class="small muted">' + esc(w.exEn) + "</p></div>" +
+      '<p class="dgram">💡 ' + esc(w.note) + "</p>" +
+      '<div class="drepeat"><p class="lbl">Now you: say the sentence out loud</p>' +
+      '<div class="row">' + (Speech.canListen ? '<button class="cta mic" id="dMic">🎤 Say it</button>' : '<button class="cta" id="dSaid">✓ I said it</button>') + (best != null ? '<span class="small muted">Best: ' + best + "%</span>" : "") + "</div>" +
+      '<div id="dOut"></div></div>' +
+      '<div class="row between dnav"><button class="ghost" id="dKnow">Kenne ich ✓</button><label class="check"><input type="checkbox" id="dAuto"' + (DR.auto ? " checked" : "") + "> Hands-free</label><button class=\"cta\" id=\"dNext\">Next →</button></div>" +
+      '<p class="small muted center">Keys: Enter = next · Space = hear the sentence · M = microphone</p></div>';
+    var go = function (grade) { cleanupKeys(); markSeen(w, grade); DR.pos++; viewDaily(); };
+    document.getElementById("dNext").onclick = function () { go("good"); };
+    document.getElementById("dKnow").onclick = function () { go("known"); };
+    document.getElementById("dAuto").onchange = function () { DR.auto = this.checked; setPref("ad_auto", DR.auto); if (DR.auto) playThenListen(); };
+    var said = document.getElementById("dSaid"); if (said) said.onclick = function () { dState().said[w.key] = Math.max(dState().said[w.key] || 0, 70); save(); go("good"); };
+    var mic = document.getElementById("dMic");
+    function listenNow() {
+      if (!mic) return;
+      if (Speech.isListening()) { Speech.stop(); return; }
+      mic.classList.add("rec"); mic.textContent = "■ Listening…";
+      Speech.listen({
+        onInterim: function (t) { document.getElementById("dOut").innerHTML = '<p class="interim">' + esc(t) + "</p>"; },
+        onFinal: function (heard, conf, secs) {
+          act("speak", secs);
+          var r = Speech.compare(w.ex, heard), st = dState();
+          st.said[w.key] = Math.max(st.said[w.key] || 0, r.score); save();
+          var msg = r.score >= 85 ? "Super! 🎉" : r.score >= 70 ? "Gut! ✓" : r.score >= 40 ? "Fast! Listen once more and try again." : "Nochmal: listen to the sentence, then say it again.";
+          document.getElementById("dOut").innerHTML = '<p><b>' + msg + '</b> <span class="mono small">' + r.score + "%</span></p><p>" + r.words.map(function (x) { return '<span class="w ' + x.cls + '">' + esc(x.word) + "</span>"; }).join(" ") + '</p><p class="small muted">Heard: „' + esc(heard) + "“</p>";
+          if (DR.auto && r.score >= 70) setTimeout(function () { if (document.getElementById("dNext")) go("good"); }, 1300);
+        },
+        onError: function (code) { document.getElementById("dOut").innerHTML = '<p class="small err">' + esc(Speech.micHelp(code)) + "</p>"; },
+        onEnd: function () { var m = document.getElementById("dMic"); if (m) { m.classList.remove("rec"); m.textContent = "🎤 Say it again"; } }
+      });
+    }
+    if (mic) mic.onclick = listenNow;
+    function playThenListen() { Speech.speak(fullWord(w), { onend: function () { setTimeout(function () { Speech.speak(w.ex, { onend: function () { if (DR && DR.auto && document.getElementById("dMic")) listenNow(); } }); }, 400); } }); }
+    if (DR.auto) playThenListen(); else Speech.speak(fullWord(w));
+    keyHandler = function (e) {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+      if (e.key === "Enter") { e.preventDefault(); go("good"); }
+      else if (e.key === " ") { e.preventDefault(); Speech.speak(w.ex); }
+      else if (e.key === "m" || e.key === "M") listenNow();
+    };
+    document.addEventListener("keydown", keyHandler);
+  }
+  var keyHandler = null;
+  function cleanupKeys() { if (keyHandler) document.removeEventListener("keydown", keyHandler); keyHandler = null; }
+  function highlight(sentence, word) {
+    var stem = word.split(/[ /(]/)[0].replace(/[!?.,]/g, ""), e = esc(sentence);
+    if (stem.length < 3) return e;
+    var re = new RegExp("(" + stem.slice(0, Math.max(3, stem.length - 2)).replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[\\p{L}]*)", "iu");
+    return e.replace(re, "<mark>$1</mark>");
+  }
+
+  function startCheck() {
+    cleanupKeys();
+    var order = DR.all.slice().sort(function () { return Math.random() - 0.5; });
+    DR.check = { order: order, pos: 0, shown: false, right: [], wrong: [] };
+    renderCheck();
+  }
+  function renderCheck() {
+    var C = DR.check;
+    if (C.pos >= C.order.length) return renderSetDone();
+    var w = dWord(DR.d, C.order[C.pos]);
+    $view.innerHTML = '<div class="card drill"><div class="row between"><p class="eyebrow">Quick check · Set ' + (DR.s + 1) + '</p><span class="mono small">' + (C.pos + 1) + " / " + C.order.length + "</span></div>" +
+      '<div class="bar"><i style="width:' + Math.round(C.pos / C.order.length * 100) + '%"></i></div>' +
+      '<p class="lbl center">How do you say this in German?</p><p class="big center">' + esc(w.en) + "</p>" + (/^(der|die|das)$/.test(w.article) ? '<p class="small muted center">(with der / die / das)</p>' : "") +
+      (C.shown ? '<div class="dsent center"><p class="big">' + art(w.article) + esc(w.de) + " " + sayBtn(fullWord(w)) + '</p><p class="small">' + esc(w.ex) + "</p>" + (C.heard ? '<p class="small muted">You said: „' + esc(C.heard) + "“</p>" : "") + "</div>" +
+        '<div class="row center"><button class="ghost" id="cNo">✗ Didn\'t know</button><button class="cta" id="cYes">✓ Knew it</button></div>'
+        : '<div class="row center">' + (Speech.canListen ? '<button class="cta mic" id="cMic">🎤 Say it</button>' : "") + '<button class="ghost" id="cShow">Show answer</button></div><div id="cOut"></div>') +
+      '<p class="small muted center"><a href="#/today" id="cSkip">Skip the check</a></p></div>';
+    function answer(ok) {
+      (ok ? C.right : C.wrong).push(w.i);
+      var st = dState(), c = st.cards[w.key] || { status: "new", ease: 2.5, interval: 0, reps: 0, lapses: 0 };
+      if (!ok) { st.cards[w.key] = schedule(c, "again"); } save();
+      C.pos++; C.shown = false; C.heard = null; renderCheck();
+    }
+    var y = document.getElementById("cYes"); if (y) { y.onclick = function () { answer(true); }; document.getElementById("cNo").onclick = function () { answer(false); }; Speech.speak(fullWord(w)); }
+    var sh = document.getElementById("cShow"); if (sh) sh.onclick = function () { C.shown = true; renderCheck(); };
+    var m = document.getElementById("cMic");
+    if (m) m.onclick = function () {
+      m.classList.add("rec");
+      Speech.listen({
+        onInterim: function (t) { document.getElementById("cOut").innerHTML = '<p class="interim center">' + esc(t) + "</p>"; },
+        onFinal: function (heard, conf, secs) { act("speak", secs); C.heard = heard; C.shown = true; var ok = Speech.compare(w.de.split(" / ")[0], heard).score >= 70; renderCheck(); if (ok) toast("✓ Richtig!"); },
+        onError: function (code) { document.getElementById("cOut").innerHTML = '<p class="small err center">' + esc(Speech.micHelp(code)) + "</p>"; },
+        onEnd: function () { m.classList.remove("rec"); }
+      });
+    };
+    document.getElementById("cSkip").onclick = function () { DR = null; };
+  }
+  function renderSetDone() {
+    var C = DR.check, d = DR.d, s = DR.s, sets = Math.ceil(DAYS[d - 1].words.length / SET), nextS = -1;
+    for (var k = 0; k < sets; k++) if (!setDone(d, k)) { nextS = k; break; }
+    var wrong = C.wrong.map(function (i) { return dWord(d, i); });
+    $view.innerHTML = '<div class="card center"><h2>Set ' + (s + 1) + ' done! 🎉</h2><p class="big mono">' + C.right.length + " / " + C.order.length + "</p><p>words you knew straight away.</p>" +
+      (wrong.length ? '<div class="note" style="text-align:left"><p class="lbl">These come back in Wiederholen:</p><p>' + wrong.map(function (w) { return art(w.article) + "<b>" + esc(w.de) + "</b> " + sayBtn(fullWord(w)); }).join(" · ") + "</p></div>" : "<p>Perfekt! 💪</p>") +
+      '<div class="row center">' + (nextS >= 0 ? link("#/drill/" + d + "/" + nextS, "Next set →") : (DAYS[d] ? link("#/today", "Day " + d + " complete! 🎉 See Day " + (d + 1)) : link("#/today", "All days done! 🎉"))) + link("#/today", "Take a break", "ghost") + "</div></div>";
+    DR = null;
+  }
+
+  var RV = null;
+  function viewDReview() {
+    var keys = dueCards();
+    if (!RV) RV = { keys: keys.sort(function () { return Math.random() - 0.5; }), pos: 0, shown: false, done: 0 };
+    if (RV.pos >= RV.keys.length) {
+      $view.innerHTML = '<div class="card center"><h2>' + (RV.done ? "Review done! 🎉" : "Nothing to review right now") + "</h2><p>" + (RV.done ? RV.done + " words refreshed." : "Words you learn come back here at the right time.") + '</p><div class="row center">' + link("#/today", "Back to today") + "</div></div>";
+      RV = null; return;
+    }
+    var k = RV.keys[RV.pos], m = k.match(/^d(\d+):(\d+)$/), w = dWord(+m[1], +m[2]);
+    $view.innerHTML = '<div class="card drill"><div class="row between"><p class="eyebrow">Wiederholen</p><span class="mono small">' + (RV.pos + 1) + " / " + RV.keys.length + "</span></div>" +
+      '<p class="lbl center">Say it in German</p><p class="big center">' + esc(w.en) + "</p>" +
+      (RV.shown ? '<div class="dsent center"><p class="big">' + art(w.article) + esc(w.de) + " " + sayBtn(fullWord(w)) + '</p><p>' + esc(w.ex) + " " + sayBtn(w.ex) + '</p><p class="small muted">💡 ' + esc(w.note) + "</p></div>" +
+        '<div class="grades"><button class="ghost" data-g="again">Again</button><button class="ghost" data-g="hard">Hard</button><button class="cta" data-g="good">Good</button><button class="ghost" data-g="easy">Easy</button></div>'
+        : '<div class="row center">' + (Speech.canListen ? '<button class="cta mic" id="rMic">🎤 Say it</button>' : "") + '<button class="ghost" id="rShow">Show answer</button></div><div id="rOut"></div>') + "</div>";
+    if (RV.shown) Speech.speak(fullWord(w));
+    var sh = document.getElementById("rShow"); if (sh) sh.onclick = function () { RV.shown = true; viewDReview(); };
+    var mic = document.getElementById("rMic");
+    if (mic) mic.onclick = function () { mic.classList.add("rec"); Speech.listen({ onInterim: function (t) { document.getElementById("rOut").innerHTML = '<p class="interim center">' + esc(t) + "</p>"; }, onFinal: function (h, c, secs) { act("speak", secs); RV.shown = true; viewDReview(); }, onError: function (code) { toast(Speech.micHelp(code)); }, onEnd: function () { mic.classList.remove("rec"); } }); };
+    $view.onclick = function (e) {
+      var b = e.target.closest("[data-g]"); if (!b) return;
+      $view.onclick = null;
+      var st = dState(); st.cards[k] = schedule(st.cards[k], b.getAttribute("data-g")); act("reviews", 1); save();
+      RV.done++; if (b.getAttribute("data-g") === "again") RV.keys.push(k);
+      RV.pos++; RV.shown = false; viewDReview();
+    };
+  }
+
+  function viewMore() {
+    var tiles = [["hoeren", "🎧", "Hören", "Listening: messages, conversations, announcements"], ["lesen", "📄", "Lesen", "Reading: emails, notices, ads, articles"], ["schreiben", "✍️", "Schreiben", "Writing: messages and emails with a checklist"], ["sprechen", "🎤", "Sprechen", "Speaking: introduce yourself, role-plays, job interviews"], ["words", "📚", "Wörter", "All words by topic, with your own words"]];
+    $view.innerHTML = '<div class="card"><h2>Mehr üben</h2><p class="muted">Use your words in real situations. Everything here matches your level (' + lvl() + ").</p><div class=\"skills\">" +
+      tiles.map(function (t) { return '<a class="skill" href="#/' + t[0] + '"><span class="skicon" aria-hidden="true">' + t[1] + "</span><span><b>" + t[2] + '</b><br><span class="small muted">' + t[3] + "</span></span></a>"; }).join("") + "</div></div>";
   }
 
   /* ---------- level test ---------- */

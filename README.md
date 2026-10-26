@@ -1,14 +1,23 @@
 # Auf Deutsch
 
-**Speak · Understand · Every day.** A simple website for learning German at your own level, from complete beginner (A1) to advanced (C1). The focus is on speaking and understanding, with new words every day and progress you can see.
+**100 words a day · Hear it · Say it · Keep it.** A fast, speaking-first way to learn German, starting from A1 basics and getting harder day by day.
 
-- **Start in seconds:** type your name, pick your level (or take a quick 3-minute check), and go. Everything you see matches your level; higher levels stay locked until you pass a short level-up test.
-- **Today's new words:** a handful of new words every day (how many depends on your daily minutes), each with an example and audio, ticked off as you learn them. Older words come back for review at the right time.
-- **🎤 Sprechen (Speaking):** introduce yourself, plan together, present and discuss, everyday role-plays, pronunciation drills, and a **job interview trainer** (from A2) with model answers for A2, B1 and B2–C1.
-- **🎧 Hören (Listening)** and **📄 Lesen (Reading):** phone messages, conversations, emails, notices and articles about everyday life and work, with questions and transcripts.
-- **✍️ Schreiben (Writing):** messages, emails and short texts with a word counter, a checklist, useful phrases and a model answer.
-- **Fortschritt (Progress):** streak, words learned, new words per day, speaking minutes, and exercises done per skill and level. Backup and restore included.
-- **Copy for Claude:** after writing or speaking, copy your answer into a Claude chat for full corrections.
+## The daily 100
+
+Every day has a theme, a short grammar lesson and **100 words in 5 sets of 20** (about 20 minutes per set, spread across the day). For every word:
+
+1. **Hear** the word and a sentence that uses it (normal or slow).
+2. **Read** a one-line grammar tip for that sentence.
+3. **Say** the sentence out loud: the microphone checks it word by word (green / amber / red).
+4. Next word. Already know it? **Kenne ich** skips it.
+
+After each set, a **quick check** (English → you say the German). Words you miss come back in **Wiederholen** with spaced repetition. **Hands-free mode** plays the word and sentence, opens the mic and moves on when you said it well. Keyboard: Enter = next, Space = hear the sentence, M = microphone.
+
+You can set your daily goal to 20, 40, 60 or 100 new words. Days 1–3 (300 A1 words) are included; new days are added in `days.js`.
+
+## More practice
+
+**Mehr üben** has listening, reading, writing and speaking exercises (A1–C1, locked above your level), a job-interview trainer from A2, and a word list by topic. **Fortschritt** tracks days completed, words learned, words you said correctly, new words per day and speaking minutes.
 
 Each person's progress is saved in their own browser, so friends can share one link and still have separate progress.
 
@@ -45,6 +54,7 @@ index.html   page
 style.css    look (German-flag colours)
 app.js       the app
 speech.js    German voice, microphone, pronunciation scoring
+days.js      the daily 100-word course (add new days at the end)
 data.js      starter words, role-plays, daily questions
 words_pro.js work, interview, office and bureaucracy vocabulary
 exercises.js Hören, Lesen, Schreiben, Sprechen and interview material (add more here)
